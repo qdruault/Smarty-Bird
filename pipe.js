@@ -23,4 +23,9 @@ class Pipe {
     update() {
         this.x -= this.speed;
     }
+
+    // Permet de savoir si le tuyau n'est plus à l'écran.
+    isOffscreen() {
+        return this.x < -this.w;
+    }
 }
