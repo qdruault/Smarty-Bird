@@ -1,5 +1,7 @@
 let bird;
 let pipes = [];
+let score = 0;
+let record = 0;
 
 // Fonction d'initialisation.
 function setup() {
@@ -22,11 +24,23 @@ function draw() {
         // L'oiseau touche ?
         if (pipes[i].hits(bird)) {
             console.log("HIT");
+            // On repart de 0.
+            score = 0;
+            updateScore(score);
         }
 
         // On retire les tuyaux hors écran.
         if (pipes[i].isOffscreen()) {
             pipes.splice(i, 1);
+            // On augmente le score.
+            score++;
+            updateScore(score);
+            // MAJ du record.
+            if (score > record) {
+                record = score;
+                document.getElementById("highest-score").innerHTML = "Highest score: " + record;
+
+            }
         }
     }
 
@@ -45,4 +59,10 @@ function keyPressed() {
     if (key === ' ') {
         bird.jump();
     }
+}
+
+// Met à jour le score en cours.
+function updateScore(score) {
+    document.getElementById("current-score").innerHTML = "Current score: " + score;
+
 }
