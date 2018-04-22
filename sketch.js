@@ -19,6 +19,11 @@ function draw() {
         pipes[i].show();
         pipes[i].update();
 
+        // L'oiseau touche ?
+        if (pipes[i].hits(bird)) {
+            console.log("HIT");
+        }
+
         // On retire les tuyaux hors écran.
         if (pipes[i].isOffscreen()) {
             pipes.splice(i, 1);
