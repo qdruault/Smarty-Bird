@@ -16,3 +16,9 @@ function draw() {
     // On affiche l'oiseau.
     bird.show();
 }
+
+function keyPressed() {
+    if (key === ' ') {
+        bird.jump();
+    }
+}

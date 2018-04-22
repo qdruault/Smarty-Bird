@@ -7,8 +7,11 @@ class Bird {
         // Taille.
         this.radius = 32;
         // Gestion de la gravité.
-        this.gravity = 1;
+        this.gravity = 0.6;
         this.velocity = 0;
+        this.airResistance = 0.9;
+        // Force du saut.
+        this.lift = -15;
     }
 
     // Rendu graphique.
@@ -21,7 +24,14 @@ class Bird {
     update() {
         // L'oiseau subit la gravité.
         this.velocity += this.gravity;
+        // Resistance de l'air.
+        this.velocity *= this.airResistance;
         // Mise à jour de la coordonée.
         this.y += this.velocity;
+    }
+
+    // Quand on fait sauter l'oiseau.
+    jump() {
+        this.velocity += this.lift;
     }
 }
