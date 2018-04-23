@@ -12,6 +12,8 @@ class Bird {
         this.airResistance = 0.9;
         // Force du saut.
         this.lift = -15;
+        // Réseau de neurones de l'oiseau.
+        this.brain = new NeuralNetwork(4, 4, 1);
     }
 
     // Rendu graphique.
@@ -28,10 +30,29 @@ class Bird {
         this.velocity *= this.airResistance;
         // Mise à jour de la coordonée.
         this.y += this.velocity;
+        // Borne dans l'écran.
+        if (this.y < 0) {
+            this.y = 0;
+        }
+        if (this.y > height) {
+            this.y = height;
+        }
     }
 
     // Quand on fait sauter l'oiseau.
     jump() {
         this.velocity += this.lift;
+    }
+
+    // Logique du réseau de neurones.
+    think() {
+        // Paramètres d'entrée.
+        const inputs = [1.0, 0.5, 0.2, 0.3];
+        // Résultat.
+        const output = this.brain.predict(inputs);
+        // Saut.
+        if (output[0] > 0.5) {
+            this.jump();
+        }
     }
 }
