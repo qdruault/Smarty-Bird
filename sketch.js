@@ -45,7 +45,7 @@ function draw() {
     }
 
     // Décide s'il doit sauter ou non.
-    bird.think();
+    bird.think(pipes);
     // Mise à jour de la position de l'oiseau.
     bird.update();
     // On affiche l'oiseau.

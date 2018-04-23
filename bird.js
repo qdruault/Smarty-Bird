@@ -30,7 +30,7 @@ class Bird {
         this.velocity *= this.airResistance;
         // Mise à jour de la coordonée.
         this.y += this.velocity;
-        // Borne dans l'écran.
+        // Bornes dans l'écran.
         if (this.y < 0) {
             this.y = 0;
         }
@@ -45,9 +45,23 @@ class Bird {
     }
 
     // Logique du réseau de neurones.
-    think() {
+    think(pipes) {
+        // On cherche le tuyau le plus proche.
+        let closest = null;
+        let closestDistance = Infinity;
+        for (let i = 0; i < pipes.length; i++) {
+            let distance = pipes[i].x - this.x;
+            if (distance < closestDistance && distance > 0) {
+                closestDistance = distance;
+                closest = pipes[i];
+            }
+        }
         // Paramètres d'entrée.
-        const inputs = [1.0, 0.5, 0.2, 0.3];
+        const inputs = [this.y / height,
+            closest.top / height,
+            closest.bottom / height,
+            closest.x / width
+        ];
         // Résultat.
         const output = this.brain.predict(inputs);
         // Saut.
