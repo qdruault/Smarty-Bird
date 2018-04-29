@@ -1,4 +1,6 @@
-let bird;
+// Nombres d'oiseaux.
+const TOTAL = 250;
+let birds = [];
 let pipes = [];
 let score = 0;
 let record = 0;
@@ -7,8 +9,10 @@ let record = 0;
 function setup() {
     // Canvas initial.
     createCanvas(640, 480);
-    // L'oiseau.
-    bird = new Bird();
+    // Création des oiseaux.
+    for (var i = 0; i < TOTAL; i++) {
+        birds[i] = new Bird();
+    }
     // Premier tuyau.
     pipes.push(new Pipe());
 }
@@ -22,18 +26,22 @@ function draw() {
         pipes[i].update();
 
         // L'oiseau touche ?
-        if (pipes[i].hits(bird)) {
-            console.log("HIT");
-            // On repart de 0.
-            score = 0;
-            updateScore(score);
+        for (var j = 0; j < birds.length; j++) {
+            if (pipes[i].hits(birds[j])) {
+                console.log("HIT");
+                // On retire l'oiseau touché.
+                birds.splice(j, 1);
+                // On repart de 0.
+                /*score = 0;
+                updateScore(score);*/
+            }
         }
 
         // On retire les tuyaux hors écran.
         if (pipes[i].isOffscreen()) {
             pipes.splice(i, 1);
             // On augmente le score.
-            score++;
+            /*score++;
             updateScore(score);
             // MAJ du record.
             if (score > record) {
@@ -41,15 +49,19 @@ function draw() {
                 document.getElementById("highest-score").innerHTML = "Highest score: " + record;
 
             }
+            */
         }
     }
 
-    // Décide s'il doit sauter ou non.
-    bird.think(pipes);
-    // Mise à jour de la position de l'oiseau.
-    bird.update();
-    // On affiche l'oiseau.
-    bird.show();
+    // Pour chaque oiseau.
+    for (bird of birds) {
+        // Décide s'il doit sauter ou non.
+        bird.think(pipes);
+        // Mise à jour de la position de l'oiseau.
+        bird.update();
+        // On affiche l'oiseau.
+        bird.show();
+    }
 
     // Nouveaux tuyaux.
     if (frameCount % 75 == 0) {

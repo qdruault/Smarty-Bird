@@ -18,7 +18,9 @@ class Bird {
 
     // Rendu graphique.
     show() {
-        fill(255);
+        stroke(255);
+        // Un peu transparent pour tous les voir.
+        fill(255, 100);
         ellipse(this.x, this.y, this.radius, this.radius)
     }
 
