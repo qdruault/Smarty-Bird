@@ -21,7 +21,6 @@ function setup() {
     // Création des oiseaux.
     for (var i = 0; i < TOTAL; i++) {
         birds[i] = new Bird();
-        savedBirds[i] = new Bird();
     }
 }
 
@@ -42,6 +41,7 @@ function draw() {
             for (var j = birds.length - 1; j >= 0; j--) {
                 if (pipes[i].hits(birds[j])) {
                     // On retire l'oiseau touché.
+                    savedBirds.push(birds[j]);
                     birds.splice(j, 1);
                 }
             }

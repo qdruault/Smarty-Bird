@@ -12,7 +12,7 @@ function nextGeneration() {
 function calculateFitness() {
     let sum = 0;
     for (bird of savedBirds) {
-        sum += bird.score;
+        sum = sum + bird.score;
     }
     for (bird of savedBirds) {
         bird.fitness = bird.score / sum;
