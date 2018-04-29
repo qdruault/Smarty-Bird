@@ -9,11 +9,15 @@ let score = 0;
 let record = 0;
 // Compteur de frames.
 let counter = 0;
+// SLider de vitesse du jeu.
+let slider;
 
 // Fonction d'initialisation.
 function setup() {
     // Canvas initial.
     createCanvas(640, 480);
+    // SLider pour gérer la Vitesse.
+    slider = createSlider(1, 100, 1);
     // Création des oiseaux.
     for (var i = 0; i < TOTAL; i++) {
         birds[i] = new Bird();
@@ -23,67 +27,52 @@ function setup() {
 
 // Rendu graphique de chaque frame/
 function draw() {
+
+    for (var c = 0; c < slider.value(); c++) {
+        // Nouveaux tuyaux.
+        if (counter % 75 == 0) {
+            pipes.push(new Pipe());
+        }
+        counter++;
+        // Affichage de tous les tuyaux.
+        for (var i = pipes.length-1; i >= 0; i--) {
+            pipes[i].update();
+
+            // L'oiseau touche ?
+            for (var j = birds.length - 1; j >= 0; j--) {
+                if (pipes[i].hits(birds[j])) {
+                    // On retire l'oiseau touché.
+                    birds.splice(j, 1);
+                }
+            }
+
+            // On retire les tuyaux hors écran.
+            if (pipes[i].isOffscreen()) {
+                pipes.splice(i, 1);
+            }
+        }
+
+        // Pour chaque oiseau.
+        for (bird of birds) {
+            // Décide s'il doit sauter ou non.
+            bird.think(pipes);
+            // Mise à jour de la position de l'oiseau.
+            bird.update();
+        }
+        // Nouvelle génération.
+        if (birds.length === 0) {
+            nextGeneration();
+            pipes = [];
+            counter = 0;
+        }
+    }
+
+    // Afficahge graphique
     background(0);
-
-    // Nouveaux tuyaux.
-    if (counter % 75 == 0) {
-        pipes.push(new Pipe());
-    }
-    counter++;
-
-    // Affichage de tous les tuyaux.
-    for (var i = pipes.length-1; i >= 0; i--) {
-        pipes[i].show();
-        pipes[i].update();
-
-        // L'oiseau touche ?
-        for (var j = birds.length - 1; j >= 0; j--) {
-            if (pipes[i].hits(birds[j])) {
-
-                console.log("HIT");
-                // On retire l'oiseau touché.
-                birds.splice(j, 1);
-                // On repart de 0.
-                /*score = 0;
-                updateScore(score);*/
-            }
-        }
-
-        // On retire les tuyaux hors écran.
-        if (pipes[i].isOffscreen()) {
-            pipes.splice(i, 1);
-            // On augmente le score.
-            /*score++;
-            updateScore(score);
-            // MAJ du record.
-            if (score > record) {
-                record = score;
-                document.getElementById("highest-score").innerHTML = "Highest score: " + record;
-
-            }
-            */
-        }
-    }
-
-    // Pour chaque oiseau.
     for (bird of birds) {
-        // Décide s'il doit sauter ou non.
-        bird.think(pipes);
-        // Mise à jour de la position de l'oiseau.
-        bird.update();
-        // On affiche l'oiseau.
-        bird.show();
+        bird.show()
     }
-
-    // Nouvelle génération.
-    if (birds.length === 0) {
-        nextGeneration();
-        pipes = [];
-        counter = 0;
+    for (pipe of pipes) {
+        pipe.show()
     }
-}
-
-// Met à jour le score en cours.
-function updateScore(score) {
-    document.getElementById("current-score").innerHTML = "Current score: " + score;
 }

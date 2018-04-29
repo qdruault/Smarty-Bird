@@ -78,6 +78,7 @@ class Bird {
                 closest = pipes[i];
             }
         }
+
         // Paramètres d'entrée.
         const inputs = [this.y / height,
             closest.top / height,
