@@ -4,9 +4,7 @@ class Pipe {
         this.spacing = 175;
         // Position.
         this.top = random(30, height - this.spacing - 30 );
-        console.log("top: " + this.top);
         this.bottom = this.top + this.spacing;
-        console.log("bottom: " + this.bottom);
         this.x = width;
         // Largeur.
         this.w = 80;

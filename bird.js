@@ -32,7 +32,6 @@ class Bird {
         // Score de l'oiseau = nb de frames vivant
         this.score = 0;
         this.fitness = 0;
-
     }
 
     // Rendu graphique.

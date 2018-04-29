@@ -20,8 +20,19 @@ function calculateFitness() {
 
 // Choisit un oiseau à partir de sa fitness value.
 function pickOne() {
-    // On choisit un oiseau au hasard.
-    const bird = random(savedBirds);
+    let index = 0;
+    // Valeur entre 0 et 1
+    let randomValue = random(1);
+    while (randomValue > 0) {
+        // On soustraie les fitness values des oiseaux
+        // jusqu'à arriver à 0.
+        // Donc plus la fitness est élevée, plus cet oiseau a de chance d'être celui choisi.
+        randomValue -= savedBirds[index].fitness;
+        index++;
+    }
+    index--;
+    // On choisit l'oiseau.
+    const bird = savedBirds[index];
     // On crée une copie avec une mutation.
     const child = new Bird(bird.brain);
     child.mutate();
