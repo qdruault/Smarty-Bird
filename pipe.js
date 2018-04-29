@@ -3,26 +3,22 @@ class Pipe {
         // Intervalle entre le haut et le bas.
         this.spacing = 175;
         // Position.
-        this.top = random(height / 6, 3 / 4 * height);
-        this.bottom = height - (this.top + this.spacing);
+        this.top = random(30, height - this.spacing - 30 );
+        console.log("top: " + this.top);
+        this.bottom = this.top + this.spacing;
+        console.log("bottom: " + this.bottom);
         this.x = width;
         // Largeur.
         this.w = 80;
         // Vitesse de déplacement.
         this.speed = 6;
-        // Touché par l'oiseau ?
-        this.highlight = false;
     }
 
     // Rendu graphique.
     show() {
         fill(255);
-        // Rouge si l'oiseau touche.
-        if (this.highlight) {
-            fill(255, 0, 0);
-        }
         rect(this.x, 0, this.w, this.top);
-        rect(this.x, height-this.bottom, this.w, this.bottom);
+        rect(this.x, this.bottom, this.w, height-this.bottom);
     }
 
     // Mise à jour à chaque frame.

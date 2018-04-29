@@ -1,6 +1,17 @@
+// Mutation function to be passed into bird.brain
+function mutate(x) {
+  if (random(1) < 0.1) {
+    let offset = randomGaussian() * 0.5;
+    let newx = x + offset;
+    return newx;
+  } else {
+    return x;
+  }
+}
+
 class Bird {
 
-    constructor() {
+    constructor(brain) {
         // Position de départ.
         this.y = height / 2;
         this.x = 64;
@@ -13,7 +24,15 @@ class Bird {
         // Force du saut.
         this.lift = -15;
         // Réseau de neurones de l'oiseau.
-        this.brain = new NeuralNetwork(4, 4, 1);
+        if (brain) {
+            this.brain = brain.copy();
+        } else {
+            this.brain = new NeuralNetwork(4, 4, 1);
+        }
+        // Score de l'oiseau = nb de frames vivant
+        this.score = 0;
+        this.fitness = 0;
+
     }
 
     // Rendu graphique.
@@ -26,6 +45,8 @@ class Bird {
 
     // Mise à jour à chaque frame.
     update() {
+        // Augmentation du score.
+        this.score++;
         // L'oiseau subit la gravité.
         this.velocity += this.gravity;
         // Resistance de l'air.
@@ -70,5 +91,10 @@ class Bird {
         if (output[0] > 0.5) {
             this.jump();
         }
+    }
+
+    // Mutation du réseau de neurones.
+    mutate() {
+        this.brain.mutate(mutate);
     }
 }

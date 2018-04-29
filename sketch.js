@@ -1,9 +1,14 @@
 // Nombres d'oiseaux.
 const TOTAL = 250;
+// Oiseaux en vie.
 let birds = [];
+// Sauvegarde de la génération en cours.
+let savedBirds = [];
 let pipes = [];
 let score = 0;
 let record = 0;
+// Compteur de frames.
+let counter = 0;
 
 // Fonction d'initialisation.
 function setup() {
@@ -12,22 +17,29 @@ function setup() {
     // Création des oiseaux.
     for (var i = 0; i < TOTAL; i++) {
         birds[i] = new Bird();
+        savedBirds[i] = new Bird();
     }
-    // Premier tuyau.
-    pipes.push(new Pipe());
 }
 
 // Rendu graphique de chaque frame/
 function draw() {
     background(0);
+
+    // Nouveaux tuyaux.
+    if (counter % 75 == 0) {
+        pipes.push(new Pipe());
+    }
+    counter++;
+
     // Affichage de tous les tuyaux.
     for (var i = pipes.length-1; i >= 0; i--) {
         pipes[i].show();
         pipes[i].update();
 
         // L'oiseau touche ?
-        for (var j = 0; j < birds.length; j++) {
+        for (var j = birds.length - 1; j >= 0; j--) {
             if (pipes[i].hits(birds[j])) {
+
                 console.log("HIT");
                 // On retire l'oiseau touché.
                 birds.splice(j, 1);
@@ -63,22 +75,15 @@ function draw() {
         bird.show();
     }
 
-    // Nouveaux tuyaux.
-    if (frameCount % 75 == 0) {
-        pipes.push(new Pipe());
+    // Nouvelle génération.
+    if (birds.length === 0) {
+        nextGeneration();
+        pipes = [];
+        counter = 0;
     }
 }
-
-/*
-function keyPressed() {
-    if (key === ' ') {
-        bird.jump();
-    }
-}
-*/
 
 // Met à jour le score en cours.
 function updateScore(score) {
     document.getElementById("current-score").innerHTML = "Current score: " + score;
-
 }
