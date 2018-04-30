@@ -1,7 +1,7 @@
 class Pipe {
     constructor() {
         // Intervalle entre le haut et le bas.
-        this.spacing = 175;
+        this.spacing = 180;
         // Position.
         this.top = random(30, height - this.spacing - 30 );
         this.bottom = this.top + this.spacing;
@@ -31,7 +31,7 @@ class Pipe {
 
     // Contact avec l'oiseau.
     hits(bird) {
-        if (bird.y < this.top || bird.y > height - this.bottom) {
+        if (bird.y < this.top || bird.y > this.bottom) {
             if (bird.x > this.x && bird.x < this.x + this.w) {
                 this.highlight = true;
                 return true;

@@ -1,5 +1,5 @@
 // Nombres d'oiseaux.
-const TOTAL = 250;
+const TOTAL = 200;
 // Oiseaux en vie.
 let birds = [];
 // Sauvegarde de la génération en cours.
@@ -40,9 +40,10 @@ function draw() {
             // L'oiseau touche ?
             for (var j = birds.length - 1; j >= 0; j--) {
                 if (pipes[i].hits(birds[j])) {
-                    // On retire l'oiseau touché.
-                    savedBirds.push(birds[j]);
-                    birds.splice(j, 1);
+                  // On retire l'oiseau touché.
+                  savedBirds.push(birds[j]);
+                  birds.splice(j, 1);
+                  //savedBirds.push(birds.splice(j, 1)[0]);
                 }
             }
 
