@@ -20,8 +20,9 @@ let currentScore = 0;
 // Fonction d'initialisation.
 function setup() {
     // Canvas initial.
-    let canvas = createCanvas(640, 480);
+    let canvas = createCanvas(windowWidth, 480);
     canvas.parent('canvas-holder');
+    console.log(canvas);
     // Slider pour gérer la Vitesse.
     slider = createSlider(1, 100, 1);
     slider.parent('slider-holder');
@@ -92,7 +93,7 @@ function draw() {
     }
 
     // Afficahge graphique
-    background(0);
+    clear();
     for (bird of birds) {
         bird.show()
     }

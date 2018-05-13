@@ -26,3 +26,8 @@ header {
     height: 64px;
     width: auto;
 }
+
+#game {
+    background-image: url("img/landscape.png");
+    background-attachment: fixed;
+}
