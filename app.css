@@ -11,3 +11,13 @@ header {
     padding: 1em 0;
     color: white;
 }
+
+.icon {
+    margin-right: 5px;
+}
+
+.icon-bird {
+    margin: 0 5px;
+    height: 64px;
+    width: auto;
+}
