@@ -27,7 +27,7 @@ class Bird {
         if (brain) {
             this.brain = brain.copy();
         } else {
-            this.brain = new NeuralNetwork(4, 4, 1);
+            this.brain = new NeuralNetwork(5, 8, 2);
         }
         // Score de l'oiseau = nb de frames vivant
         this.score = 0;
@@ -84,15 +84,17 @@ class Bird {
         }
 
         // Paramètres d'entrée.
-        const inputs = [this.y / height,
+        const inputs = [
+            this.y / height,
             closest.top / height,
             closest.bottom / height,
-            closest.x / width
+            closest.x / width,
+            this.velocity / 10
         ];
         // Résultat.
         const output = this.brain.predict(inputs);
         // Saut.
-        if (output[0] > 0.5) {
+        if (output[0] > output[1]) {
             this.jump();
         }
     }
