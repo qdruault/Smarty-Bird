@@ -16,6 +16,9 @@ let numberOfGenerations = 1;
 // Record.
 let maxScore = 0;
 let currentScore = 0;
+// Niveau de difficulté.
+let difficulty;
+let pipesOccurrence;
 
 // Fonction d'initialisation.
 function setup() {
@@ -33,12 +36,22 @@ function setup() {
 
 // Rendu graphique de chaque frame/
 function draw() {
+    // MAJ de la difficulté.
+    difficulty = document.querySelector('input[name=difficulty]:checked').value;
+    if (difficulty == "EPF") {
+        pipesOccurrence = 75;
+    } else if (difficulty == "UTT") {
+        pipesOccurrence = 60;
+    } else {
+        // UTC sinon.
+        pipesOccurrence = 45;
+    }
     // MAJ de la vitesse du jeu.
     select("#game-speed").elt.innerHTML = slider.value();
 
     for (var c = 0; c < slider.value(); c++) {
         // Nouveaux tuyaux.
-        if (counter % 75 == 0) {
+        if (counter % pipesOccurrence == 0) {
             pipes.push(new Pipe());
         }
         counter++;
