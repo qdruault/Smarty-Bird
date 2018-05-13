@@ -1,0 +1,33 @@
+.strip {
+    padding: 1em 0;
+    color: white;
+    border-bottom: 2px solid #ffffff;
+}
+
+header {
+    background-color: #2ecc71;
+    text-align: center;
+}
+
+#stats {
+    background-color: #3498db;
+}
+
+#speed {
+    background-color: #e74c3c;
+}
+
+.icon {
+    margin-right: 5px;
+}
+
+.icon-bird {
+    margin: 0 5px;
+    height: 64px;
+    width: auto;
+}
+
+#game {
+    background-image: url("img/landscape.png");
+    background-attachment: fixed;
+}

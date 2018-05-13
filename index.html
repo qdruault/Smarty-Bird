@@ -2,8 +2,10 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Flappy Bird Neural Network</title>
-
+        <title>Smarty Bird!</title>
+        <link rel="icon" href="img/bird.png">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <link rel="stylesheet" href="app.css">
         <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
         <script language="javascript" src="libraries/p5.dom.js"></script>
         <script language="javascript" src="libraries/nn.js"></script>
@@ -14,8 +16,45 @@
         <script language="javascript" type="text/javascript" src="sketch.js"></script>
     </head>
     <body>
-        <h1>Flappy bird!</h1>
-        <h2>Highest score: <span  id="highest-score">0</span></h2>
-        <h3>Number of generations: <span  id="generations-number">0</span></h3>
+        <header class="strip">
+            <div class="container">
+                <h1>
+                    <img class="icon-bird" src="img/bird.png" alt="">
+                    Smarty Bird!
+                    <img class="icon icon-bird reverse" src="img/bird-reverse.png" alt="">
+                </h1>
+            </div>
+        </header>
+        <div class="strip" id="stats">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <h3><img class="icon" src="img/first.png" alt="">Highest score: <span  id="highest-score">0</span></h3>
+                    </div>
+                    <div class="col-md-4">
+                        <h3><img class="icon" src="img/pipes.png" alt="">Current score: <span  id="current-score">0</span></h3>
+                    </div>
+                    <div class="col-md-4">
+                        <h3><img class="icon" src="img/dna.png" alt="">#<span  id="generations-number">1</span> generation(s)</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="strip" id="speed">
+            <div class="container">
+                <h3>
+                    <img class="icon" src="img/speed.png" alt="">Speed: <span id="game-speed">1</span>
+                    <span id="slider-holder">
+
+                    </span>
+                </h3>
+            </div>
+        </div>
+        <div id="game">
+            <div id="canvas-holder">
+
+            </div>
+        </div>
     </body>
 </html>

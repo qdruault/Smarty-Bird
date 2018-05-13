@@ -35,7 +35,7 @@ function pickOne() {
     // On choisit l'oiseau.
     const bird = savedBirds[index];
     // On crée une copie avec une mutation.
-    const child = new Bird(bird.brain);
+    const child = new Bird(bird.brain, bird.imageNumber);
     child.mutate();
     return child;
 }

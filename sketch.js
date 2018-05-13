@@ -12,7 +12,7 @@ let counter = 0;
 // SLider de vitesse du jeu.
 let slider;
 // Nombre de générations;
-let numberOfGenerations = 0;
+let numberOfGenerations = 1;
 // Record.
 let maxScore = 0;
 let currentScore = 0;
@@ -20,9 +20,11 @@ let currentScore = 0;
 // Fonction d'initialisation.
 function setup() {
     // Canvas initial.
-    createCanvas(640, 480);
-    // SLider pour gérer la Vitesse.
-    slider = createSlider(1, 100, 1);
+    let canvas = createCanvas(windowWidth, 480);
+    canvas.parent('canvas-holder');
+    // Slider pour gérer la Vitesse.
+    slider = createSlider(1, 10, 1);
+    slider.parent('slider-holder');
     // Création des oiseaux.
     for (var i = 0; i < TOTAL; i++) {
         birds[i] = new Bird();
@@ -31,6 +33,8 @@ function setup() {
 
 // Rendu graphique de chaque frame/
 function draw() {
+    // MAJ de la vitesse du jeu.
+    select("#game-speed").elt.innerHTML = slider.value();
 
     for (var c = 0; c < slider.value(); c++) {
         // Nouveaux tuyaux.
@@ -57,6 +61,7 @@ function draw() {
                 pipes.splice(i, 1);
                 // MAJ du score.
                 currentScore++;
+                select("#current-score").elt.innerHTML = currentScore;
                 if (currentScore > maxScore) {
                     maxScore = currentScore;
                     select("#highest-score").elt.innerHTML = maxScore;
@@ -75,6 +80,7 @@ function draw() {
         if (birds.length === 0) {
             // RAZ du score.
             currentScore = 0;
+            select("#current-score").elt.innerHTML = currentScore;
             nextGeneration();
             // MAJ de l'interface.
             numberOfGenerations++;
@@ -86,7 +92,7 @@ function draw() {
     }
 
     // Afficahge graphique
-    background(0);
+    clear();
     for (bird of birds) {
         bird.show()
     }

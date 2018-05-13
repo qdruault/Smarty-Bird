@@ -11,7 +11,7 @@ function mutate(x) {
 
 class Bird {
 
-    constructor(brain) {
+    constructor(brain, img) {
         // Position de départ.
         this.y = height / 2;
         this.x = 64;
@@ -32,14 +32,18 @@ class Bird {
         // Score de l'oiseau = nb de frames vivant
         this.score = 0;
         this.fitness = 0;
+        // Image.
+        this.imageNumber = img || Math.floor(Math.random() * 14) + 1;
+        this.bg = loadImage('img/face' + this.imageNumber + '.jpg');
     }
 
     // Rendu graphique.
     show() {
-        stroke(255);
+        //stroke(255);
         // Un peu transparent pour tous les voir.
-        fill(255, 100);
-        ellipse(this.x, this.y, this.radius, this.radius)
+        //fill(255, 100);
+        image(this.bg, this.x - this.radius / 2, this.y - this.radius / 2, this.radius, this.radius )
+        //ellipse(this.x, this.y, this.radius, this.radius)
     }
 
     // Mise à jour à chaque frame.
