@@ -1,6 +1,5 @@
 // Crée une nouvelle génération d'oiseaux meilleure que la précédente.
 function nextGeneration() {
-    console.log("nouvelle génération");
     calculateFitness();
     for (var i = 0; i < TOTAL; i++) {
         birds[i] = pickOne();

@@ -1,15 +1,24 @@
 class Pipe {
     constructor() {
-        // Intervalle entre le haut et le bas.
-        this.spacing = 180;
+        if (difficulty == "EPF") {
+            // Intervalle entre le haut et le bas.
+            this.spacing = 180;
+        } else if (difficulty == "UTT") {
+            // Intervalle entre le haut et le bas.
+            this.spacing = 150;
+        } else {
+            // UTC sinon.
+            // Intervalle entre le haut et le bas.
+            this.spacing = 120;
+        }
+        // Vitesse de déplacement.
+        this.speed = 6;
         // Position.
         this.top = random(30, height - this.spacing - 30 );
         this.bottom = this.top + this.spacing;
         this.x = width;
         // Largeur.
         this.w = 80;
-        // Vitesse de déplacement.
-        this.speed = 6;
     }
 
     // Rendu graphique.
@@ -33,11 +42,9 @@ class Pipe {
     hits(bird) {
         if (bird.y < this.top || bird.y > this.bottom) {
             if (bird.x > this.x && bird.x < this.x + this.w) {
-                this.highlight = true;
                 return true;
             }
         }
-        this.highlight = false;
         return false;
     }
 }

@@ -1,5 +1,5 @@
 // Nombres d'oiseaux.
-const TOTAL = 200;
+const TOTAL = 500;
 // Oiseaux en vie.
 let birds = [];
 // Sauvegarde de la génération en cours.
@@ -16,6 +16,9 @@ let numberOfGenerations = 1;
 // Record.
 let maxScore = 0;
 let currentScore = 0;
+// Niveau de difficulté.
+let difficulty;
+let pipesOccurrence;
 
 // Fonction d'initialisation.
 function setup() {
@@ -33,12 +36,22 @@ function setup() {
 
 // Rendu graphique de chaque frame/
 function draw() {
+    // MAJ de la difficulté.
+    difficulty = document.querySelector('input[name=difficulty]:checked').value;
+    if (difficulty == "EPF") {
+        pipesOccurrence = 75;
+    } else if (difficulty == "UTT") {
+        pipesOccurrence = 60;
+    } else {
+        // UTC sinon.
+        pipesOccurrence = 45;
+    }
     // MAJ de la vitesse du jeu.
     select("#game-speed").elt.innerHTML = slider.value();
 
     for (var c = 0; c < slider.value(); c++) {
         // Nouveaux tuyaux.
-        if (counter % 75 == 0) {
+        if (counter % pipesOccurrence == 0) {
             pipes.push(new Pipe());
         }
         counter++;
@@ -46,9 +59,9 @@ function draw() {
         for (var i = pipes.length-1; i >= 0; i--) {
             pipes[i].update();
 
-            // L'oiseau touche ?
+            // L'oiseau est mort ? (touche le pipe ou le bas de l'écran)
             for (var j = birds.length - 1; j >= 0; j--) {
-                if (pipes[i].hits(birds[j])) {
+                if (pipes[i].hits(birds[j]) || birds[j].isOffscreen()) {
                   // On retire l'oiseau touché.
                   savedBirds.push(birds[j]);
                   birds.splice(j, 1);

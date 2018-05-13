@@ -27,7 +27,7 @@ class Bird {
         if (brain) {
             this.brain = brain.copy();
         } else {
-            this.brain = new NeuralNetwork(4, 4, 1);
+            this.brain = new NeuralNetwork(5, 8, 2);
         }
         // Score de l'oiseau = nb de frames vivant
         this.score = 0;
@@ -56,13 +56,6 @@ class Bird {
         this.velocity *= this.airResistance;
         // Mise à jour de la coordonée.
         this.y += this.velocity;
-        // Bornes dans l'écran.
-        if (this.y < 0) {
-            this.y = 0;
-        }
-        if (this.y > height) {
-            this.y = height;
-        }
     }
 
     // Quand on fait sauter l'oiseau.
@@ -84,15 +77,17 @@ class Bird {
         }
 
         // Paramètres d'entrée.
-        const inputs = [this.y / height,
+        const inputs = [
+            this.y / height,
             closest.top / height,
             closest.bottom / height,
-            closest.x / width
+            closest.x / width,
+            this.velocity / 10
         ];
         // Résultat.
         const output = this.brain.predict(inputs);
         // Saut.
-        if (output[0] > 0.5) {
+        if (output[0] > output[1]) {
             this.jump();
         }
     }
@@ -100,5 +95,10 @@ class Bird {
     // Mutation du réseau de neurones.
     mutate() {
         this.brain.mutate(mutate);
+    }
+
+    // Touche le bas de l'écran.
+    isOffscreen() {
+        return this.y > height;
     }
 }
