@@ -46,9 +46,9 @@ function draw() {
         for (var i = pipes.length-1; i >= 0; i--) {
             pipes[i].update();
 
-            // L'oiseau touche ?
+            // L'oiseau est mort ? (touche le pipe ou le bas de l'écran)
             for (var j = birds.length - 1; j >= 0; j--) {
-                if (pipes[i].hits(birds[j])) {
+                if (pipes[i].hits(birds[j]) || birds[j].isOffscreen()) {
                   // On retire l'oiseau touché.
                   savedBirds.push(birds[j]);
                   birds.splice(j, 1);

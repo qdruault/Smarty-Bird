@@ -56,13 +56,6 @@ class Bird {
         this.velocity *= this.airResistance;
         // Mise à jour de la coordonée.
         this.y += this.velocity;
-        // Bornes dans l'écran.
-        if (this.y < 0) {
-            this.y = 0;
-        }
-        if (this.y > height) {
-            this.y = height;
-        }
     }
 
     // Quand on fait sauter l'oiseau.
@@ -102,5 +95,10 @@ class Bird {
     // Mutation du réseau de neurones.
     mutate() {
         this.brain.mutate(mutate);
+    }
+
+    // Touche le bas de l'écran.
+    isOffscreen() {
+        return this.y > height;
     }
 }
