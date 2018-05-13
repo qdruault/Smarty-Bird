@@ -2,7 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Flappy Bird Neural Network</title>
+        <title>Smarty Bird!</title>
+        <link rel="icon" href="img/bird.png">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
         <link rel="stylesheet" href="app.css">
         <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
@@ -15,16 +16,16 @@
         <script language="javascript" type="text/javascript" src="sketch.js"></script>
     </head>
     <body>
-        <header>
+        <header class="strip">
             <div class="container">
                 <h1>
                     <img class="icon-bird" src="img/bird.png" alt="">
-                    Smarty bird!
+                    Smarty Bird!
                     <img class="icon icon-bird reverse" src="img/bird-reverse.png" alt="">
                 </h1>
             </div>
         </header>
-        <div id="stats">
+        <div class="strip" id="stats">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
@@ -40,14 +41,19 @@
                 </div>
             </div>
         </div>
-        <div id="game">
+        <div class="strip" id="speed">
             <div class="container">
-                <div id="canvas-holder">
+                <h3>
+                    <img class="icon" src="img/speed.png" alt="">Speed: <span id="game-speed">1</span>
+                    <span id="slider-holder">
 
-                </div>
-                <div id="slider-holder">
+                    </span>
+                </h3>
+            </div>
+        </div>
+        <div id="game">
+            <div id="canvas-holder">
 
-                </div>
             </div>
         </div>
     </body>

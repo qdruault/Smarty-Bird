@@ -33,6 +33,8 @@ function setup() {
 
 // Rendu graphique de chaque frame/
 function draw() {
+    // MAJ de la vitesse du jeu.
+    select("#game-speed").elt.innerHTML = slider.value();
 
     for (var c = 0; c < slider.value(); c++) {
         // Nouveaux tuyaux.

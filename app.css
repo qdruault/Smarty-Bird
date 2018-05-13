@@ -1,15 +1,20 @@
-header {
-    background-color: #2ecc71;
+.strip {
     padding: 1em 0;
-    text-align: center;
     color: white;
     border-bottom: 2px solid #ffffff;
 }
 
+header {
+    background-color: #2ecc71;
+    text-align: center;
+}
+
 #stats {
     background-color: #3498db;
-    padding: 1em 0;
-    color: white;
+}
+
+#speed {
+    background-color: #e74c3c;
 }
 
 .icon {
