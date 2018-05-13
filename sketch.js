@@ -22,9 +22,8 @@ function setup() {
     // Canvas initial.
     let canvas = createCanvas(windowWidth, 480);
     canvas.parent('canvas-holder');
-    console.log(canvas);
     // Slider pour gérer la Vitesse.
-    slider = createSlider(1, 100, 1);
+    slider = createSlider(1, 10, 1);
     slider.parent('slider-holder');
     // Création des oiseaux.
     for (var i = 0; i < TOTAL; i++) {
