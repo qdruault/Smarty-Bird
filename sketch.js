@@ -11,6 +11,11 @@ let record = 0;
 let counter = 0;
 // SLider de vitesse du jeu.
 let slider;
+// Nombre de générations;
+let numberOfGenerations = 0;
+// Record.
+let maxScore = 0;
+let currentScore = 0;
 
 // Fonction d'initialisation.
 function setup() {
@@ -50,6 +55,12 @@ function draw() {
             // On retire les tuyaux hors écran.
             if (pipes[i].isOffscreen()) {
                 pipes.splice(i, 1);
+                // MAJ du score.
+                currentScore++;
+                if (currentScore > maxScore) {
+                    maxScore = currentScore;
+                    select("#highest-score").elt.innerHTML = maxScore;
+                }
             }
         }
 
@@ -62,7 +73,13 @@ function draw() {
         }
         // Nouvelle génération.
         if (birds.length === 0) {
+            // RAZ du score.
+            currentScore = 0;
             nextGeneration();
+            // MAJ de l'interface.
+            numberOfGenerations++;
+            select("#generations-number").elt.innerHTML = numberOfGenerations;
+
             pipes = [];
             counter = 0;
         }
