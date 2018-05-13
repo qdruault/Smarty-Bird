@@ -1,0 +1,13 @@
+header {
+    background-color: #2ecc71;
+    padding: 1em 0;
+    text-align: center;
+    color: white;
+    border-bottom: 2px solid #ffffff;
+}
+
+#stats {
+    background-color: #3498db;
+    padding: 1em 0;
+    color: white;
+}
