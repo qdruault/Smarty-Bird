@@ -38,13 +38,12 @@ function setup() {
 function draw() {
     // MAJ de la difficulté.
     difficulty = document.querySelector('input[name=difficulty]:checked').value;
-    if (difficulty == "EPF") {
+    if (difficulty == "1") {
         pipesOccurrence = 75;
-    } else if (difficulty == "UTT") {
+    } else if (difficulty == "2") {
         pipesOccurrence = 60;
     } else {
-        // UTC sinon.
-        pipesOccurrence = 45;
+        pipesOccurrence = 50;
     }
     // MAJ de la vitesse du jeu.
     select("#game-speed").elt.innerHTML = slider.value();

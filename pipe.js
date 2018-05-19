@@ -1,15 +1,15 @@
 class Pipe {
     constructor() {
-        if (difficulty == "EPF") {
+        if (difficulty == "1") {
             // Intervalle entre le haut et le bas.
             this.spacing = 180;
-        } else if (difficulty == "UTT") {
+        } else if (difficulty == "2") {
             // Intervalle entre le haut et le bas.
             this.spacing = 150;
         } else {
             // UTC sinon.
             // Intervalle entre le haut et le bas.
-            this.spacing = 120;
+            this.spacing = 130;
         }
         // Vitesse de déplacement.
         this.speed = 6;
