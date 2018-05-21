@@ -4,6 +4,10 @@ function nextGeneration() {
     calculateFitness();
     // Add some new birds.
     for (var i = 0; i < savedBirds.length; i++) {
+        // Choose the parent for the crossover.
+        const parent1 = pickOne();
+        const parent2 = pickOne();
+        const
         birds.push(pickOne());
     }
     // Clear the old generation.
@@ -25,7 +29,7 @@ function calculateFitness() {
 // the more likely it is to be picked.
 // Returns the bird.
 function pickOne() {
-    let child;
+    let pickedBird;
     do {
         // Pick a random bird.
         const randomIndex = Math.floor(random(0, savedBirds.length));
@@ -35,9 +39,14 @@ function pickOne() {
         // Check the fitness value of the chosen bird .
         if (bird.fitness > randomValue) {
             // On crée une copie avec une mutation.
-            child = new Bird(bird.brain, bird.imageNumber);
-            child.mutate();
+            pickedBird = new Bird(bird.brain, bird.imageNumber);
+            pickedBird.mutate();
         }
-    } while (!child);
-    return child;
+    } while (!pickedBird);
+    return pickedBird;
+}
+
+// Create a child through a crossover + mutation.
+function birdCrossover(parent1, parent2) {
+    
 }

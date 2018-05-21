@@ -31,6 +31,9 @@ class NeuralNetwork {
 
       this.bias_h = a.bias_h.copy();
       this.bias_o = a.bias_o.copy();
+
+      this.setLearningRate(a.learning_rate);
+      this.setActivationFunction(a.activation_function);
     } else {
       this.input_nodes = a;
       this.hidden_nodes = b;
@@ -45,13 +48,10 @@ class NeuralNetwork {
       this.bias_o = new Matrix(this.output_nodes, 1);
       this.bias_h.randomize();
       this.bias_o.randomize();
+
+      this.setLearningRate();
+      this.setActivationFunction();
     }
-
-    // TODO: copy these as well
-    this.setLearningRate();
-    this.setActivationFunction();
-
-
   }
 
   predict(input_array) {
@@ -168,7 +168,4 @@ class NeuralNetwork {
     this.bias_h.map(func);
     this.bias_o.map(func);
   }
-
-
-
 }
