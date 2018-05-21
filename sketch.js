@@ -64,7 +64,6 @@ function draw() {
                   // On retire l'oiseau touché.
                   savedBirds.push(birds[j]);
                   birds.splice(j, 1);
-                  //savedBirds.push(birds.splice(j, 1)[0]);
                 }
             }
 
