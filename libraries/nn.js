@@ -47,8 +47,7 @@ class NeuralNetwork {
       this.weights_ih = new Matrix(this.hidden_nodes, this.input_nodes);
       this.weights_ho = new Matrix(this.output_nodes, this.hidden_nodes);
       // Random split between 1 and n-1;
-      const randomWeightsIhSplit = Math.floor(random(a.weights_ih.rows -1)) + 1;
-      console.log("Split at " + randomWeightsIhSplit);
+      const randomWeightsIhSplit = Math.floor(random(a.weights_ih.rows - 1)) + 1;
       // Crossover.
       for (var i = 0; i < a.weights_ih.cols; i++) {
         for (var j = 0; j < randomWeightsIhSplit; j++) {
@@ -58,12 +57,26 @@ class NeuralNetwork {
           this.weights_ih.data[j][i] = b.weights_ih.data[j][i];
         }
       }
-      console.log("weights_ih Parent 1: ");
-      console.log(a.weights_ih);
-      console.log("weights_ih Parent 2: ");
-      console.log(b.weights_ih);
-      console.log("weights_ih Child: ");
-      console.log(this.weights_ih);
+
+      // Random split between 1 and n-1;
+      const randomWeightsHoSplit = Math.floor(random(a.weights_ho.rows - 1)) + 1;
+      console.log("Split at " + randomWeightsHoSplit);
+      // Crossover.
+      for (var i = 0; i < a.weights_ho.cols; i++) {
+        for (var j = 0; j < randomWeightsHoSplit; j++) {
+          this.weights_ho.data[j][i] = a.weights_ho.data[j][i];
+        }
+        for (var j = randomWeightsHoSplit; j < a.weights_ho.rows; j++) {
+          this.weights_ho.data[j][i] = b.weights_ho.data[j][i];
+        }
+      }
+
+      console.log("weights_ho Parent 1: ");
+      console.log(a.weights_ho);
+      console.log("weights_ho Parent 2: ");
+      console.log(b.weights_ho);
+      console.log("weights_ho Child: ");
+      console.log(this.weights_ho);
 
       if (random(1) < 0.5) {
         this.setLearningRate(a.learning_rate);
