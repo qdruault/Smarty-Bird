@@ -21,7 +21,9 @@ let tanh = new ActivationFunction(
 class NeuralNetwork {
   // TODO: document what a, b, c are
   constructor(a, b, c) {
-    if (a instanceof NeuralNetwork) {
+    // Copy an existing NN.
+    if (a instanceof NeuralNetwork && !b) {
+      console.log("Brain copy.");
       this.input_nodes = a.input_nodes;
       this.hidden_nodes = a.hidden_nodes;
       this.output_nodes = a.output_nodes;
@@ -34,7 +36,51 @@ class NeuralNetwork {
 
       this.setLearningRate(a.learning_rate);
       this.setActivationFunction(a.activation_function);
+    } else if (a instanceof NeuralNetwork && b instanceof NeuralNetwork) {
+      console.log("Crossover");
+      // Crossover with 2 parents.
+      this.input_nodes = a.input_nodes;
+      this.hidden_nodes = a.hidden_nodes;
+      this.output_nodes = a.output_nodes;
+
+      // Crossover of the weights.
+      this.weights_ih = new Matrix(this.hidden_nodes, this.input_nodes);
+      this.weights_ho = new Matrix(this.output_nodes, this.hidden_nodes);
+      // Random split between 1 and n-1;
+      const randomWeightsIhSplit = Math.floor(random(a.weights_ih.rows -1)) + 1;
+      console.log("Split at " + randomWeightsIhSplit);
+      // Crossover.
+      for (var i = 0; i < a.weights_ih.cols; i++) {
+        for (var j = 0; j < randomWeightsIhSplit; j++) {
+          this.weights_ih.data[j][i] = a.weights_ih.data[j][i];
+        }
+        for (var j = randomWeightsIhSplit; j < a.weights_ih.rows; j++) {
+          this.weights_ih.data[j][i] = b.weights_ih.data[j][i];
+        }
+      }
+      console.log("weights_ih Parent 1: ");
+      console.log(a.weights_ih);
+      console.log("weights_ih Parent 2: ");
+      console.log(b.weights_ih);
+      console.log("weights_ih Child: ");
+      console.log(this.weights_ih);
+
+      if (random(1) < 0.5) {
+        this.setLearningRate(a.learning_rate);
+      } else {
+        this.setLearningRate(b.learning_rate);
+      }
+
+      if (random(1) < 0.5) {
+        this.setActivationFunction(a.activation_function);
+      } else {
+        this.setActivationFunction(b.activation_function);
+      }
+      this.setLearningRate(a.learning_rate);
+      this.setActivationFunction(a.activation_function);
     } else {
+      // New NN.
+      console.log("New brain");
       this.input_nodes = a;
       this.hidden_nodes = b;
       this.output_nodes = c;

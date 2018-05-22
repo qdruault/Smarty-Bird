@@ -4,11 +4,12 @@ function nextGeneration() {
     calculateFitness();
     // Add some new birds.
     for (var i = 0; i < savedBirds.length; i++) {
-        // Choose the parent for the crossover.
+        // Choose the parents for the crossover.
         const parent1 = pickOne();
         const parent2 = pickOne();
-        const
-        birds.push(pickOne());
+        // Add the child.
+        const newChild = createBird(parent1, parent2);
+        birds.push(newChild);
     }
     // Clear the old generation.
     savedBirds = [];
@@ -38,15 +39,18 @@ function pickOne() {
         const randomValue = random(0, 1);
         // Check the fitness value of the chosen bird .
         if (bird.fitness > randomValue) {
-            // On crée une copie avec une mutation.
-            pickedBird = new Bird(bird.brain, bird.imageNumber);
-            pickedBird.mutate();
+            pickedBird = bird;
         }
     } while (!pickedBird);
     return pickedBird;
 }
 
 // Create a child through a crossover + mutation.
-function birdCrossover(parent1, parent2) {
-    
+function createBird(parent1, parent2) {
+  // Crossover the brain.
+  const childBrain = new NeuralNetwork(parent1.brain, parent2.brain);
+  const child = new Bird(childBrain);
+  // Mutation.
+  child.mutate();
+  return child;
 }
