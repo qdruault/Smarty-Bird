@@ -60,7 +60,6 @@ class NeuralNetwork {
 
       // Random split between 1 and n-1;
       const randomWeightsHoSplit = Math.floor(random(a.weights_ho.rows - 1)) + 1;
-      console.log("Split at " + randomWeightsHoSplit);
       // Crossover.
       for (var i = 0; i < a.weights_ho.cols; i++) {
         for (var j = 0; j < randomWeightsHoSplit; j++) {
@@ -71,12 +70,28 @@ class NeuralNetwork {
         }
       }
 
-      console.log("weights_ho Parent 1: ");
-      console.log(a.weights_ho);
-      console.log("weights_ho Parent 2: ");
-      console.log(b.weights_ho);
-      console.log("weights_ho Child: ");
-      console.log(this.weights_ho);
+      // Crossover of the biases.
+      this.bias_h = new Matrix(this.hidden_nodes, 1);
+      this.bias_o = new Matrix(this.output_nodes, 1);
+      // Random split between 1 and n-1;
+      const randomBiasHSplit = Math.floor(random(a.bias_h.rows - 1)) + 1;
+      console.log("Split at " + randomBiasHSplit);
+      // Crossover.
+      for (var i = 0; i < a.bias_h.cols; i++) {
+        for (var j = 0; j < randomBiasHSplit; j++) {
+          this.bias_h.data[j][i] = a.bias_h.data[j][i];
+        }
+        for (var j = randomBiasHSplit; j < a.bias_h.rows; j++) {
+          this.bias_h.data[j][i] = b.bias_h.data[j][i];
+        }
+      }
+
+      console.log("bias_h Parent 1: ");
+      console.log(a.bias_h);
+      console.log("bias_h Parent 2: ");
+      console.log(b.bias_h);
+      console.log("bias_h Child: ");
+      console.log(this.bias_h);
 
       if (random(1) < 0.5) {
         this.setLearningRate(a.learning_rate);
