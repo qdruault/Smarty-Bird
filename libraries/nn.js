@@ -21,7 +21,8 @@ let tanh = new ActivationFunction(
 class NeuralNetwork {
   // TODO: document what a, b, c are
   constructor(a, b, c) {
-    if (a instanceof NeuralNetwork) {
+    // Copy an existing NN.
+    if (a instanceof NeuralNetwork && !b) {
       this.input_nodes = a.input_nodes;
       this.hidden_nodes = a.hidden_nodes;
       this.output_nodes = a.output_nodes;
@@ -31,7 +32,84 @@ class NeuralNetwork {
 
       this.bias_h = a.bias_h.copy();
       this.bias_o = a.bias_o.copy();
+
+      this.setLearningRate(a.learning_rate);
+      this.setActivationFunction(a.activation_function);
+    } else if (a instanceof NeuralNetwork && b instanceof NeuralNetwork) {
+      // Crossover with 2 parents.
+      this.input_nodes = a.input_nodes;
+      this.hidden_nodes = a.hidden_nodes;
+      this.output_nodes = a.output_nodes;
+
+      // Crossover of the weights.
+      this.weights_ih = new Matrix(this.hidden_nodes, this.input_nodes);
+      this.weights_ho = new Matrix(this.output_nodes, this.hidden_nodes);
+      // Random split between 1 and n-1;
+      const randomWeightsIhSplit = Math.floor(random(a.weights_ih.rows - 1)) + 1;
+      // Crossover.
+      for (var i = 0; i < a.weights_ih.cols; i++) {
+        for (var j = 0; j < randomWeightsIhSplit; j++) {
+          this.weights_ih.data[j][i] = a.weights_ih.data[j][i];
+        }
+        for (var j = randomWeightsIhSplit; j < a.weights_ih.rows; j++) {
+          this.weights_ih.data[j][i] = b.weights_ih.data[j][i];
+        }
+      }
+
+      // Random split between 1 and n-1;
+      const randomWeightsHoSplit = Math.floor(random(a.weights_ho.rows - 1)) + 1;
+      // Crossover.
+      for (var i = 0; i < a.weights_ho.cols; i++) {
+        for (var j = 0; j < randomWeightsHoSplit; j++) {
+          this.weights_ho.data[j][i] = a.weights_ho.data[j][i];
+        }
+        for (var j = randomWeightsHoSplit; j < a.weights_ho.rows; j++) {
+          this.weights_ho.data[j][i] = b.weights_ho.data[j][i];
+        }
+      }
+
+      // Crossover of the biases.
+      this.bias_h = new Matrix(this.hidden_nodes, 1);
+      this.bias_o = new Matrix(this.output_nodes, 1);
+      // Random split between 1 and n-1;
+      const randomBiasHSplit = Math.floor(random(a.bias_h.rows - 1)) + 1;
+      // Crossover.
+      for (var i = 0; i < a.bias_h.cols; i++) {
+        for (var j = 0; j < randomBiasHSplit; j++) {
+          this.bias_h.data[j][i] = a.bias_h.data[j][i];
+        }
+        for (var j = randomBiasHSplit; j < a.bias_h.rows; j++) {
+          this.bias_h.data[j][i] = b.bias_h.data[j][i];
+        }
+      }
+
+      // Random split between 1 and n-1;
+      const randomBiasOSplit = Math.floor(random(a.bias_o.rows - 1)) + 1;
+      // Crossover.
+      for (var i = 0; i < a.bias_o.cols; i++) {
+        for (var j = 0; j < randomBiasOSplit; j++) {
+          this.bias_o.data[j][i] = a.bias_o.data[j][i];
+        }
+        for (var j = randomBiasOSplit; j < a.bias_o.rows; j++) {
+          this.bias_o.data[j][i] = b.bias_o.data[j][i];
+        }
+      }
+
+      if (random(1) < 0.5) {
+        this.setLearningRate(a.learning_rate);
+      } else {
+        this.setLearningRate(b.learning_rate);
+      }
+
+      if (random(1) < 0.5) {
+        this.setActivationFunction(a.activation_function);
+      } else {
+        this.setActivationFunction(b.activation_function);
+      }
+      this.setLearningRate(a.learning_rate);
+      this.setActivationFunction(a.activation_function);
     } else {
+      // New NN.
       this.input_nodes = a;
       this.hidden_nodes = b;
       this.output_nodes = c;
@@ -45,13 +123,10 @@ class NeuralNetwork {
       this.bias_o = new Matrix(this.output_nodes, 1);
       this.bias_h.randomize();
       this.bias_o.randomize();
+
+      this.setLearningRate();
+      this.setActivationFunction();
     }
-
-    // TODO: copy these as well
-    this.setLearningRate();
-    this.setActivationFunction();
-
-
   }
 
   predict(input_array) {
@@ -168,7 +243,4 @@ class NeuralNetwork {
     this.bias_h.map(func);
     this.bias_o.map(func);
   }
-
-
-
 }
