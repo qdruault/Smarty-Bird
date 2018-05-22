@@ -1,5 +1,5 @@
 // Nombres d'oiseaux.
-const TOTAL = 2;
+const TOTAL = 500;
 // Oiseaux en vie.
 let birds = [];
 // Sauvegarde de la génération en cours.

@@ -23,7 +23,6 @@ class NeuralNetwork {
   constructor(a, b, c) {
     // Copy an existing NN.
     if (a instanceof NeuralNetwork && !b) {
-      console.log("Brain copy.");
       this.input_nodes = a.input_nodes;
       this.hidden_nodes = a.hidden_nodes;
       this.output_nodes = a.output_nodes;
@@ -37,7 +36,6 @@ class NeuralNetwork {
       this.setLearningRate(a.learning_rate);
       this.setActivationFunction(a.activation_function);
     } else if (a instanceof NeuralNetwork && b instanceof NeuralNetwork) {
-      console.log("Crossover");
       // Crossover with 2 parents.
       this.input_nodes = a.input_nodes;
       this.hidden_nodes = a.hidden_nodes;
@@ -75,7 +73,6 @@ class NeuralNetwork {
       this.bias_o = new Matrix(this.output_nodes, 1);
       // Random split between 1 and n-1;
       const randomBiasHSplit = Math.floor(random(a.bias_h.rows - 1)) + 1;
-      console.log("Split at " + randomBiasHSplit);
       // Crossover.
       for (var i = 0; i < a.bias_h.cols; i++) {
         for (var j = 0; j < randomBiasHSplit; j++) {
@@ -86,12 +83,17 @@ class NeuralNetwork {
         }
       }
 
-      console.log("bias_h Parent 1: ");
-      console.log(a.bias_h);
-      console.log("bias_h Parent 2: ");
-      console.log(b.bias_h);
-      console.log("bias_h Child: ");
-      console.log(this.bias_h);
+      // Random split between 1 and n-1;
+      const randomBiasOSplit = Math.floor(random(a.bias_o.rows - 1)) + 1;
+      // Crossover.
+      for (var i = 0; i < a.bias_o.cols; i++) {
+        for (var j = 0; j < randomBiasOSplit; j++) {
+          this.bias_o.data[j][i] = a.bias_o.data[j][i];
+        }
+        for (var j = randomBiasOSplit; j < a.bias_o.rows; j++) {
+          this.bias_o.data[j][i] = b.bias_o.data[j][i];
+        }
+      }
 
       if (random(1) < 0.5) {
         this.setLearningRate(a.learning_rate);
@@ -108,7 +110,6 @@ class NeuralNetwork {
       this.setActivationFunction(a.activation_function);
     } else {
       // New NN.
-      console.log("New brain");
       this.input_nodes = a;
       this.hidden_nodes = b;
       this.output_nodes = c;
