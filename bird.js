@@ -101,4 +101,10 @@ class Bird {
     isOffscreen() {
         return this.y > height;
     }
+
+    // Place the bird in the initial position.
+    center() {
+      this.y = height / 2;
+      this.x = 64;
+    }
 }

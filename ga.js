@@ -28,6 +28,10 @@ function nextGeneration() {
     }
     // Clear the old generation.
     savedBirds = [];
+    // Center all the birds.
+    for (bird of birds) {
+      bird.center();
+    }
 }
 
 // Calculate the fitness value (0-1) of each bird
