@@ -36,6 +36,7 @@ function setup() {
 
 // Rendu graphique de chaque frame/
 function draw() {
+
     // MAJ de la difficulté.
     difficulty = document.querySelector('input[name=difficulty]:checked').value;
     if (difficulty == "1") {

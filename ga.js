@@ -3,13 +3,28 @@ function nextGeneration() {
     // Normalise the score of each bird.
     calculateFitness();
     // Add some new birds.
-    for (var i = 0; i < savedBirds.length; i++) {
+    const bestPercent = savedBirds.length * 2 / 100;
+    const wheelPercent = savedBirds.length * 50 / 100;
+    const crossoverPercent = savedBirds.length * 48 / 100;
+    // 2% best.
+    for (var i = 0; i < bestPercent; i++) {
+      birds.push(savedBirds[savedBirds.length - i - 1]);
+    }
+    // 50% roulette wheel.
+    for (var i = 0; i < wheelPercent; i++) {
+      let newBird = pickOne();
+      newBird.mutate();
+      birds.push(newBird);
+    }
+    // 48% crossover.
+    for (var i = 0; i < crossoverPercent; i++) {
         // Choose the parents for the crossover.
         const parent1 = pickOne();
         const parent2 = pickOne();
         // Add the child.
-        const newChild = createBird(parent1, parent2);
-        birds.push(newChild);
+        let newBird = createBird(parent1, parent2);
+        newBird.mutate();
+        birds.push(newBird);
     }
     // Clear the old generation.
     savedBirds = [];
