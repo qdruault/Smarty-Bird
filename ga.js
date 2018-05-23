@@ -2,22 +2,22 @@
 function nextGeneration() {
     // Normalise the score of each bird.
     calculateFitness();
-    // Add some new birds.
-    const bestPercent = savedBirds.length * 2 / 100;
-    const wheelPercent = savedBirds.length * 50 / 100;
-    const crossoverPercent = savedBirds.length * 48 / 100;
-    // 2% best.
-    for (var i = 0; i < bestPercent; i++) {
+    // Create the new generation basd on the user settings.
+    const elitismPercent = select("#elitism-percentage").elt.innerHTML;
+    const wheelPercent = select("#wheel-percentage").elt.innerHTML;
+    const crossoverPercent = select("#crossover-percentage").elt.innerHTML;
+    // Elitism.
+    for (var i = 0; i < elitismPercent; i++) {
         let bestBird = savedBirds[savedBirds.length - i - 1].copy();
-      birds.push(bestBird);
+        birds.push(bestBird);
     }
-    // 50% roulette wheel.
+    // Roulette wheel.
     for (var i = 0; i < wheelPercent; i++) {
-      let newBird = pickOne();
-      newBird.mutate();
-      birds.push(newBird);
+        let newBird = pickOne();
+        newBird.mutate();
+        birds.push(newBird);
     }
-    // 48% crossover.
+    // Crossover.
     for (var i = 0; i < crossoverPercent; i++) {
         // Choose the parents for the crossover.
         const parent1 = pickOne();
