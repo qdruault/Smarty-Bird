@@ -8,7 +8,8 @@ function nextGeneration() {
     const crossoverPercent = savedBirds.length * 48 / 100;
     // 2% best.
     for (var i = 0; i < bestPercent; i++) {
-      birds.push(savedBirds[savedBirds.length - i - 1]);
+        let bestBird = savedBirds[savedBirds.length - i - 1].copy();
+      birds.push(bestBird);
     }
     // 50% roulette wheel.
     for (var i = 0; i < wheelPercent; i++) {
@@ -28,10 +29,6 @@ function nextGeneration() {
     }
     // Clear the old generation.
     savedBirds = [];
-    // Center all the birds.
-    for (bird of birds) {
-      bird.center();
-    }
 }
 
 // Calculate the fitness value (0-1) of each bird
@@ -61,7 +58,7 @@ function pickOne() {
             pickedBird = bird;
         }
     } while (!pickedBird);
-    return pickedBird;
+    return pickedBird.copy();
 }
 
 // Create a child through a crossover + mutation.
