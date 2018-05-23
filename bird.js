@@ -108,9 +108,8 @@ class Bird {
         return this.y > height;
     }
 
-    // Place the bird in the initial position.
-    center() {
-      this.y = height / 2;
-      this.x = 64;
+    // Create a copy of this bird
+    copy() {
+        return new Bird(this.brain, this.red, this.green, this.blue);
     }
 }

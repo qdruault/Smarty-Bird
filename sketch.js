@@ -1,16 +1,18 @@
-// Nombres d'oiseaux.
+// Number of birds.
 const TOTAL = 500;
-// Oiseaux en vie.
+// Birds alive.
 let birds = [];
-// Sauvegarde de la génération en cours.
+// Dead birds from the current generation.
 let savedBirds = [];
 let pipes = [];
 let score = 0;
 let record = 0;
-// Compteur de frames.
+// Frames counter.
 let counter = 0;
-// SLider de vitesse du jeu.
-let slider;
+// Sliders.
+let speedSlider;
+let elitismSlider;
+let wheelSlider;
 // Nombre de générations;
 let numberOfGenerations = 1;
 // Record.
@@ -22,12 +24,16 @@ let pipesOccurrence;
 
 // Fonction d'initialisation.
 function setup() {
-    // Canvas initial.
+    // Game canvas.
     let canvas = createCanvas(windowWidth, 480);
     canvas.parent('canvas-holder');
-    // Slider pour gérer la Vitesse.
-    slider = createSlider(1, 10, 1);
-    slider.parent('slider-holder');
+    // Create the sliders.
+    speedSlider = createSlider(1, 10, 1);
+    speedSlider.parent('speed-slider-holder');
+    elitismSlider = createSlider(1, 10, 2, 1);
+    elitismSlider.parent('elitism-slider-holder');
+    wheelSlider = createSlider(1, 100, 50, 1);
+    wheelSlider.parent('wheel-slider-holder');
     // Création des oiseaux.
     for (var i = 0; i < TOTAL; i++) {
         birds[i] = new Bird();
@@ -46,10 +52,21 @@ function draw() {
     } else {
         pipesOccurrence = 50;
     }
-    // MAJ de la vitesse du jeu.
-    select("#game-speed").elt.innerHTML = slider.value();
+    // Update sliders values.
+    select("#game-speed").elt.innerHTML = speedSlider.value();
+    let elitismPercent = elitismSlider.value();
+    let wheelPercent = wheelSlider.value();
+    let crossoverPercent = 100 - elitismPercent - wheelPercent;
+    // Adjust to make total = 100%.
+    if (crossoverPercent < 0) {
+        wheelSlider.value(wheelPercent - 1);
+    }
 
-    for (var c = 0; c < slider.value(); c++) {
+    select("#elitism-percentage").elt.innerHTML = elitismSlider.value();
+    select("#wheel-percentage").elt.innerHTML = wheelSlider.value();
+    select("#crossover-percentage").elt.innerHTML = crossoverPercent;
+
+    for (var c = 0; c < speedSlider.value(); c++) {
         // Nouveaux tuyaux.
         if (counter % pipesOccurrence == 0) {
             pipes.push(new Pipe());

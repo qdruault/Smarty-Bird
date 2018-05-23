@@ -17,8 +17,14 @@ header {
     background-color: #e74c3c;
 }
 
+#settings {
+    background-color: #f1c40f;
+}
+
 .icon {
     margin-right: 5px;
+    height: 32px;
+    width: auto;
 }
 
 .icon-bird {
