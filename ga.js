@@ -68,7 +68,11 @@ function pickOne() {
 function createBird(parent1, parent2) {
   // Crossover the brain.
   const childBrain = new NeuralNetwork(parent1.brain, parent2.brain);
-  const child = new Bird(childBrain);
+  // Mix the colors.
+  const newRed = (parent1.red + parent2.red) / 2;
+  const newGreen = (parent1.green + parent2.green) / 2;
+  const newBlue = (parent1.blue + parent2.blue) / 2;
+  const child = new Bird(childBrain, newRed, newGreen, newBlue);
   // Mutation.
   child.mutate();
   return child;

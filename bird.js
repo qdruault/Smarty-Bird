@@ -11,39 +11,45 @@ function mutate(x) {
 
 class Bird {
 
-    constructor(brain, img) {
-        // Position de départ.
+    constructor(brain, red, green, blue) {
+        // Start position.
         this.y = height / 2;
         this.x = 64;
-        // Taille.
+        // Size.
         this.radius = 32;
-        // Gestion de la gravité.
+        // Gravity applied to the bird.
         this.gravity = 0.6;
         this.velocity = 0;
         this.airResistance = 0.9;
-        // Force du saut.
+        // Leap strength.
         this.lift = -15;
-        // Réseau de neurones de l'oiseau.
+        // Neural Network of the bird.
         if (brain) {
             this.brain = brain.copy();
         } else {
             this.brain = new NeuralNetwork(5, 8, 2);
         }
-        // Score de l'oiseau = nb de frames vivant
+        // Bird score = number of frames alive.
         this.score = 0;
         this.fitness = 0;
-        // Image.
-        this.imageNumber = img || Math.floor(Math.random() * 14) + 1;
-        this.bg = loadImage('img/face' + this.imageNumber + '.jpg');
+        // Display.
+        if (red) {
+          this.red = red;
+          this.green = green;
+          this.blue = blue;
+        } else {
+          this.red = Math.floor(random(255));
+          this.green = Math.floor(random(255));
+          this.blue = Math.floor(random(255));
+        }
     }
 
-    // Rendu graphique.
+    // Graphical rendering.
     show() {
-        //stroke(255);
-        // Un peu transparent pour tous les voir.
-        //fill(255, 100);
-        image(this.bg, this.x - this.radius / 2, this.y - this.radius / 2, this.radius, this.radius )
-        //ellipse(this.x, this.y, this.radius, this.radius)
+        stroke(255);
+        // Color of the bird with transparency.
+        fill(this.red, this.green, this.blue, 100);
+        ellipse(this.x, this.y, this.radius, this.radius)
     }
 
     // Mise à jour à chaque frame.
