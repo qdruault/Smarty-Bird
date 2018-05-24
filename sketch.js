@@ -42,16 +42,9 @@ function setup() {
 
 // Draw the game at each frame.
 function draw() {
-
     // Difficulty update.
     difficulty = document.querySelector('input[name=difficulty]:checked').value;
-    if (difficulty == "1") {
-        pipesOccurrence = 75;
-    } else if (difficulty == "2") {
-        pipesOccurrence = 60;
-    } else {
-        pipesOccurrence = 50;
-    }
+    pipesOccurrence = 75;
     // Update sliders values.
     select("#game-speed").elt.innerHTML = speedSlider.value();
     let elitismPercent = elitismSlider.value();

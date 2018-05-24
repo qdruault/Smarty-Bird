@@ -1,14 +1,12 @@
 class Pipe {
     constructor() {
+      // Space between the top and the bottom.
         if (difficulty == "1") {
-            // Space between the top and the bottom.
             this.spacing = 180;
         } else if (difficulty == "2") {
-            // Space between the top and the bottom.
-            this.spacing = 150;
+            this.spacing = 160;
         } else {
-            // Space between the top and the bottom.
-            this.spacing = 130;
+            this.spacing = 140;
         }
         // Speed of the pipe.
         this.speed = 6;
