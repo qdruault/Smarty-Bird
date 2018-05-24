@@ -16,13 +16,13 @@ class Bird {
         this.y = height / 2;
         this.x = 64;
         // Size.
-        this.radius = 32;
+        this.radius = 40;
         // Gravity applied to the bird.
-        this.gravity = 0.6;
+        this.gravity = 0.8;
         this.velocity = 0;
-        this.airResistance = 0.9;
+        this.airResistance = 0.95;
         // Leap strength.
-        this.lift = -15;
+        this.lift = -20;
         // Neural Network of the bird.
         if (brain) {
             this.brain = brain.copy();
@@ -52,26 +52,22 @@ class Bird {
         ellipse(this.x, this.y, this.radius, this.radius)
     }
 
-    // Mise à jour à chaque frame.
+    // Update the position and score of the buird.
     update() {
-        // Augmentation du score.
         this.score++;
-        // L'oiseau subit la gravité.
         this.velocity += this.gravity;
-        // Resistance de l'air.
         this.velocity *= this.airResistance;
-        // Mise à jour de la coordonée.
         this.y += this.velocity;
     }
 
-    // Quand on fait sauter l'oiseau.
+    // The bird jumps.
     jump() {
         this.velocity += this.lift;
     }
 
-    // Logique du réseau de neurones.
+    // Let the neural network think.
     think(pipes) {
-        // On cherche le tuyau le plus proche.
+        // Find the closest pipe.
         let closest = null;
         let closestDistance = Infinity;
         for (let i = 0; i < pipes.length; i++) {
@@ -82,7 +78,7 @@ class Bird {
             }
         }
 
-        // Paramètres d'entrée.
+        // Neural Network inputs.
         const inputs = [
             this.y / height,
             closest.top / height,
@@ -90,20 +86,20 @@ class Bird {
             closest.x / width,
             this.velocity / 10
         ];
-        // Résultat.
+        // Result.
         const output = this.brain.predict(inputs);
-        // Saut.
+        // Decide whether or not to jump.
         if (output[0] > output[1]) {
             this.jump();
         }
     }
 
-    // Mutation du réseau de neurones.
+    // Mutate the neural network.
     mutate() {
         this.brain.mutate(mutate);
     }
 
-    // Touche le bas de l'écran.
+    // Touches the bottom of the screen.
     isOffscreen() {
         return this.y > height;
     }
