@@ -16,7 +16,7 @@ class Bird {
         this.y = height / 2;
         this.x = 64;
         // Size.
-        this.radius = 40;
+        this.radius = 20;
         // Gravity applied to the bird.
         this.gravity = 0.8;
         this.velocity = 0;
@@ -49,7 +49,7 @@ class Bird {
         stroke(255);
         // Color of the bird with transparency.
         fill(this.red, this.green, this.blue, 100);
-        ellipse(this.x, this.y, this.radius, this.radius)
+        ellipse(this.x, this.y, this.radius * 2, this.radius * 2)
     }
 
     // Update the position and score of the buird.
