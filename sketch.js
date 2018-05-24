@@ -28,7 +28,7 @@ function setup() {
     let canvas = createCanvas(windowWidth, 480);
     canvas.parent('canvas-holder');
     // Create the sliders.
-    speedSlider = createSlider(1, 10, 1);
+    speedSlider = createSlider(1, 20, 10);
     speedSlider.parent('speed-slider-holder');
     elitismSlider = createSlider(1, 10, 2, 1);
     elitismSlider.parent('elitism-slider-holder');
