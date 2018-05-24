@@ -1,50 +1,46 @@
 class Pipe {
     constructor() {
+      // Space between the top and the bottom.
         if (difficulty == "1") {
-            // Intervalle entre le haut et le bas.
             this.spacing = 180;
         } else if (difficulty == "2") {
-            // Intervalle entre le haut et le bas.
-            this.spacing = 150;
+            this.spacing = 160;
         } else {
-            // UTC sinon.
-            // Intervalle entre le haut et le bas.
-            this.spacing = 130;
+            this.spacing = 140;
         }
-        // Vitesse de déplacement.
+        // Speed of the pipe.
         this.speed = 6;
         // Position.
         this.top = random(30, height - this.spacing - 30 );
         this.bottom = this.top + this.spacing;
         this.x = width;
-        // Largeur.
-        this.w = 80;
+        this.width = 80;
     }
 
-    // Rendu graphique.
+    // Display the pipe.
     show() {
         fill(255);
-        rect(this.x, 0, this.w, this.top);
-        rect(this.x, this.bottom, this.w, height-this.bottom);
+        rect(this.x, 0, this.width, this.top);
+        rect(this.x, this.bottom, this.width, height-this.bottom);
     }
 
-    // Mise à jour à chaque frame.
+    // Move the pipe.
     update() {
         this.x -= this.speed;
     }
 
-    // Permet de savoir si le tuyau n'est plus à l'écran.
+    // True if the pipe is no longer on the screen.
     isOffscreen() {
-        return this.x < -this.w;
+        return this.x < -this.width;
     }
 
-    // Contact avec l'oiseau.
+    // Touch a bird.
     hits(bird) {
-        if (bird.y < this.top || bird.y > this.bottom) {
-            if (bird.x > this.x && bird.x < this.x + this.w) {
-                return true;
-            }
+      if (bird.x > this.x && bird.x < this.x + this.width) {
+        if ((bird.y - bird.radius) < this.top || (bird.y + bird.radius) > this.bottom) {
+          return true;
         }
-        return false;
+      }
+      return false;
     }
 }

@@ -18,11 +18,11 @@ let numberOfGenerations = 1;
 // Record.
 let maxScore = 0;
 let currentScore = 0;
-// Niveau de difficulté.
+// Difficulty level.
 let difficulty;
 let pipesOccurrence;
 
-// Fonction d'initialisation.
+// Initialise the sketch.
 function setup() {
     // Game canvas.
     let canvas = createCanvas(windowWidth, 480);
@@ -34,24 +34,17 @@ function setup() {
     elitismSlider.parent('elitism-slider-holder');
     wheelSlider = createSlider(1, 100, 50, 1);
     wheelSlider.parent('wheel-slider-holder');
-    // Création des oiseaux.
+    // Initial population.
     for (var i = 0; i < TOTAL; i++) {
         birds[i] = new Bird();
     }
 }
 
-// Rendu graphique de chaque frame/
+// Draw the game at each frame.
 function draw() {
-
-    // MAJ de la difficulté.
+    // Difficulty update.
     difficulty = document.querySelector('input[name=difficulty]:checked').value;
-    if (difficulty == "1") {
-        pipesOccurrence = 75;
-    } else if (difficulty == "2") {
-        pipesOccurrence = 60;
-    } else {
-        pipesOccurrence = 50;
-    }
+    pipesOccurrence = 75;
     // Update sliders values.
     select("#game-speed").elt.innerHTML = speedSlider.value();
     let elitismPercent = elitismSlider.value();
@@ -67,19 +60,19 @@ function draw() {
     select("#crossover-percentage").elt.innerHTML = crossoverPercent;
 
     for (var c = 0; c < speedSlider.value(); c++) {
-        // Nouveaux tuyaux.
+        // Add a new pipe.
         if (counter % pipesOccurrence == 0) {
             pipes.push(new Pipe());
         }
         counter++;
-        // Affichage de tous les tuyaux.
+        // Display all the pipes.
         for (var i = pipes.length-1; i >= 0; i--) {
             pipes[i].update();
 
-            // L'oiseau est mort ? (touche le pipe ou le bas de l'écran)
+            // Check if the bird hits the pipe or leave the screen.
             for (var j = birds.length - 1; j >= 0; j--) {
                 if (pipes[i].hits(birds[j]) || birds[j].isOffscreen()) {
-                  // On retire l'oiseau touché.
+                  // Save this bird and remove it from the current population.
                   savedBirds.push(birds[j]);
                   birds.splice(j, 1);
                 }
