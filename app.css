@@ -36,4 +36,5 @@ header {
 #game {
     background-image: url("img/landscape.png");
     background-size: contain;
+    height: 480px;
 }
