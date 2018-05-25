@@ -94,9 +94,16 @@ class Bird {
         }
     }
 
-    // Mutate the neural network.
+    // Mutate the bird.
     mutate() {
+        // Mutate the neural network.
         this.brain.mutate(mutate);
+        // Mutate the colors.
+        if (random(1) < 0.1) {
+            this.red += random(2) - 1;
+            this.blue += random(2) - 1;
+            this.green += random(2) - 1;
+        }
     }
 
     // Touches the bottom of the screen.
