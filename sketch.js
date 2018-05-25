@@ -31,7 +31,7 @@ function setup() {
     // Create the sliders.
     difficultySlider = createSlider(1, 3, 1);
     difficultySlider.parent('difficulty-slider-holder');
-    speedSlider = createSlider(1, 20, 10);
+    speedSlider = createSlider(1, 1000, 100);
     speedSlider.parent('speed-slider-holder');
     elitismSlider = createSlider(1, 10, 2, 1);
     elitismSlider.parent('elitism-slider-holder');
