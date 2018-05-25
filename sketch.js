@@ -48,6 +48,7 @@ function draw() {
       difficulty = difficultySlider.value();
       // Reset highest score if difficulty has changed.
       maxScore = 0;
+      select("#highest-score").elt.innerHTML = maxScore;
     }
     pipesOccurrence = 75;
     // Update sliders values.
