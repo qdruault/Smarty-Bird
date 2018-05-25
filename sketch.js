@@ -11,6 +11,7 @@ let record = 0;
 let counter = 0;
 // Sliders.
 let speedSlider;
+let difficultySlider;
 let elitismSlider;
 let wheelSlider;
 // Nombre de générations;
@@ -28,7 +29,9 @@ function setup() {
     let canvas = createCanvas(windowWidth, 480);
     canvas.parent('canvas-holder');
     // Create the sliders.
-    speedSlider = createSlider(1, 10, 1);
+    difficultySlider = createSlider(1, 3, 1);
+    difficultySlider.parent('difficulty-slider-holder');
+    speedSlider = createSlider(1, 20, 10);
     speedSlider.parent('speed-slider-holder');
     elitismSlider = createSlider(1, 10, 2, 1);
     elitismSlider.parent('elitism-slider-holder');
@@ -43,10 +46,11 @@ function setup() {
 // Draw the game at each frame.
 function draw() {
     // Difficulty update.
-    difficulty = document.querySelector('input[name=difficulty]:checked').value;
+    difficulty = difficultySlider.value();
     pipesOccurrence = 75;
     // Update sliders values.
     select("#game-speed").elt.innerHTML = speedSlider.value();
+    select("#game-difficulty").elt.innerHTML = difficultySlider.value();
     let elitismPercent = elitismSlider.value();
     let wheelPercent = wheelSlider.value();
     let crossoverPercent = 100 - elitismPercent - wheelPercent;

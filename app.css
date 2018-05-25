@@ -37,4 +37,5 @@ header {
     background-image: url("img/landscape.png");
     background-size: contain;
     height: 480px;
+    border-bottom: 2px solid #ffffff;
 }
