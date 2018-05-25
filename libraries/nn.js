@@ -219,8 +219,51 @@ class NeuralNetwork {
   }
 
   uniformCrossover(parent1, parent2) {
-    console.log("uniformCrossover");
-    noLoop();
+    // Crossover of the weights.
+    for (var i = 0; i < parent1.weights_ih.cols; i++) {
+      for (var j = 0; j < parent1.weights_ih.rows; j++) {
+        // Each bit is randomly copied.
+        if (random(1) > 0.5) {
+          this.weights_ih.data[j][i] = parent1.weights_ih.data[j][i];
+        } else {
+          this.weights_ih.data[j][i] = parent2.weights_ih.data[j][i];
+        }
+      }
+    }
+
+    for (var i = 0; i < parent1.weights_ho.cols; i++) {
+      for (var j = 0; j < parent1.weights_ho.rows; j++) {
+        // Each bit is randomly copied.
+        if (random(1) > 0.5) {
+          this.weights_ho.data[j][i] = parent1.weights_ho.data[j][i];
+        } else {
+          this.weights_ho.data[j][i] = parent2.weights_ho.data[j][i];
+        }
+      }
+    }
+
+    // Crossover of the biases.
+    for (var i = 0; i < parent1.bias_h.cols; i++) {
+      for (var j = 0; j < parent1.bias_h.rows; j++) {
+        // Each bit is randomly copied.
+        if (random(1) > 0.5) {
+          this.bias_h.data[j][i] = parent1.bias_h.data[j][i];
+        } else {
+          this.bias_h.data[j][i] = parent2.bias_h.data[j][i];
+        }
+      }
+    }
+
+    for (var i = 0; i < parent1.bias_o.cols; i++) {
+      for (var j = 0; j < parent1.bias_o.rows; j++) {
+        // Each bit is randomly copied.
+        if (random(1) > 0.5) {
+          this.bias_o.data[j][i] = parent1.bias_o.data[j][i];
+        } else {
+          this.bias_o.data[j][i] = parent2.bias_o.data[j][i];
+        }
+      }
+    }
   }
 
   predict(input_array) {
