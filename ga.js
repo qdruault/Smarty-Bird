@@ -19,17 +19,11 @@ function nextGeneration() {
             birds.push(elitismCrossover(numberOfBirds, crossoverType));
         }
     } else {
+        // Roulette wheel.
         // Crossover with some random birds.
         while (birds.length < TOTAL) {
-            birds.push(rouletteWheelCrossover());
+            birds.push(rouletteWheelCrossover(numberOfBirds, crossoverType));
         }
-        // Roulette wheel to choose the birds for the crossover.
-        for (var i = 0; i < numberOfBirds; i++) {
-            let newBird = pickOne();
-            newBird.mutate();
-            birds.push(newBird);
-        }
-
     }
     // Clear the old generation.
     savedBirds = [];
@@ -46,23 +40,36 @@ function calculateFitness() {
     }
 }
 
-// Pick a bird. The higher a bird's fitness value
-// the more likely it is to be picked.
-// Returns the bird.
-function pickOne() {
-    let pickedBird;
+function rouletteWheelCrossover(crossoverType) {
+    let firstParentIndex, secondParentIndex;
+    let firstParent, secondParent;
     do {
         // Pick a random bird.
-        const randomIndex = Math.floor(random(0, savedBirds.length));
-        const bird = savedBirds[randomIndex];
+        firstParentIndex = Math.floor(random(0, savedBirds.length));
+        const bird = savedBirds[firstParentIndex];
         // Pick a random number between 0 and 1 (the sum of all the fitness values).
         const randomValue = random(0, 1);
         // Check the fitness value of the chosen bird .
         if (bird.fitness > randomValue) {
-            pickedBird = bird;
+            firstParent = bird;
         }
-    } while (!pickedBird);
-    return pickedBird.copy();
+    } while (!firstParent);
+    do {
+        // Pick a random bird.
+        secondParentIndex = Math.floor(random(0, savedBirds.length));
+        // Check the 2 birds are different.
+        if (secondParentIndex != firstParentIndex) {
+            const bird = savedBirds[secondParentIndex];
+            // Pick a random number between 0 and 1 (the sum of all the fitness values).
+            const randomValue = random(0, 1);
+            // Check the fitness value of the chosen bird .
+            if (bird.fitness > randomValue) {
+                secondParent = bird;
+            }
+        }
+    } while (!secondParent);
+
+    return createBird(firstParent, secondParent, crossoverType);
 }
 
 function elitismCrossover(numberOfBirds, crossoverType) {
