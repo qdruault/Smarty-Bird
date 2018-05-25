@@ -39,3 +39,7 @@ header {
     height: 480px;
     border-bottom: 2px solid #ffffff;
 }
+
+.new-highscore {
+  color: #ffa330;
+}

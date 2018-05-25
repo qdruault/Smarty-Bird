@@ -46,7 +46,11 @@ function setup() {
 // Draw the game at each frame.
 function draw() {
     // Difficulty update.
-    difficulty = difficultySlider.value();
+    if (difficultySlider.value() != difficulty) {
+      difficulty = difficultySlider.value();
+      // Reset highest score if difficulty has changed.
+      maxScore = 0;
+    }
     pipesOccurrence = 75;
     // Update sliders values.
     select("#game-speed").elt.innerHTML = speedSlider.value();
@@ -82,33 +86,41 @@ function draw() {
                 }
             }
 
-            // On retire les tuyaux hors écran.
+            // Remove the pipes once they're gone.
             if (pipes[i].isOffscreen()) {
                 pipes.splice(i, 1);
-                // MAJ du score.
+                // Update the score.
                 currentScore++;
                 select("#current-score").elt.innerHTML = currentScore;
+                // New highscore ?
                 if (currentScore > maxScore) {
                     maxScore = currentScore;
                     select("#highest-score").elt.innerHTML = maxScore;
+                    // Change the color of the max score.
+                    if (select("#highest-score").elt.className != "new-highscore") {
+                      select("#highest-score").addClass("new-highscore");
+                      select("#current-score").addClass("new-highscore");
+                    }
+
                 }
             }
         }
 
-        // Pour chaque oiseau.
+        // Make the birds think if they have to jump or not.
         for (bird of birds) {
-            // Décide s'il doit sauter ou non.
             bird.think(pipes);
-            // Mise à jour de la position de l'oiseau.
+            // Update its position.
             bird.update();
         }
-        // Nouvelle génération.
+        // All birds died ?.
         if (birds.length === 0) {
-            // RAZ du score.
+            // Reset the score.
             currentScore = 0;
             select("#current-score").elt.innerHTML = currentScore;
+            select("#highest-score").removeClass("new-highscore");
+            select("#current-score").removeClass("new-highscore");
             nextGeneration();
-            // MAJ de l'interface.
+            // Update the user interface.
             numberOfGenerations++;
             select("#generations-number").elt.innerHTML = numberOfGenerations;
 
@@ -117,7 +129,7 @@ function draw() {
         }
     }
 
-    // Afficahge graphique
+    // Graphical display.
     clear();
     for (bird of birds) {
         bird.show()
