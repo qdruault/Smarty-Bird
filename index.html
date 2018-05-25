@@ -49,22 +49,33 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="selection-process" id="selection-process1" value="elitism" checked>
+                          <label class="form-check-label" for="selection-process1">
+                              <h3>
+                                  Elitism
+                              </h3>
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="selection-process" id="selection-process2" value="roulette">
+                          <label class="form-check-label" for="selection-process2">
+                              <h3>
+                                  Roulette wheel
+                              </h3>
+                          </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <h3>
-                            <img class="icon" src="img/podium.png" alt="">Elitism: <span  id="elitism-percentage">2</span>%
-                            <span id="elitism-slider-holder">
+                            <span  id="selection-percentage">2</span>%
+                            <span id="selection-slider-holder">
                             </span>
                         </h3>
                     </div>
                     <div class="col-md-4">
                         <h3>
-                            <img class="icon" src="img/roulette.png" alt="">Roulette: <span  id="wheel-percentage">50</span>%
-                            <span id="wheel-slider-holder">
-                            </span>
-                        </h3>
-                    </div>
-                    <div class="col-md-4">
-                        <h3>
-                            <img class="icon" src="img/crossover.png" alt="">Crossover: <span id="crossover-percentage">48</span>%
+                            <img class="icon" src="img/crossover.png" alt="">Crossover
                         </h3>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="crossover" id="inlineRadio1" value="1" checked>

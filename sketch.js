@@ -33,10 +33,8 @@ function setup() {
     difficultySlider.parent('difficulty-slider-holder');
     speedSlider = createSlider(1, 1000, 100);
     speedSlider.parent('speed-slider-holder');
-    elitismSlider = createSlider(1, 10, 2, 1);
-    elitismSlider.parent('elitism-slider-holder');
-    wheelSlider = createSlider(1, 100, 50, 1);
-    wheelSlider.parent('wheel-slider-holder');
+    selectionSlider = createSlider(1, 50, 2, 1);
+    selectionSlider.parent('selection-slider-holder');
     // Initial population.
     for (var i = 0; i < TOTAL; i++) {
         birds[i] = new Bird();
@@ -55,17 +53,7 @@ function draw() {
     // Update sliders values.
     select("#game-speed").elt.innerHTML = speedSlider.value();
     select("#game-difficulty").elt.innerHTML = difficultySlider.value();
-    let elitismPercent = elitismSlider.value();
-    let wheelPercent = wheelSlider.value();
-    let crossoverPercent = 100 - elitismPercent - wheelPercent;
-    // Adjust to make total = 100%.
-    if (crossoverPercent < 0) {
-        wheelSlider.value(wheelPercent - 1);
-    }
-
-    select("#elitism-percentage").elt.innerHTML = elitismSlider.value();
-    select("#wheel-percentage").elt.innerHTML = wheelSlider.value();
-    select("#crossover-percentage").elt.innerHTML = crossoverPercent;
+    select("#selection-percentage").elt.innerHTML = selectionSlider.value();
 
     for (var c = 0; c < speedSlider.value(); c++) {
         // Add a new pipe.

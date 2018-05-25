@@ -3,30 +3,33 @@ function nextGeneration() {
     // Normalise the score of each bird.
     calculateFitness();
     // Create the new generation basd on the user settings.
-    const elitismPercent = select("#elitism-percentage").elt.innerHTML;
-    const wheelPercent = select("#wheel-percentage").elt.innerHTML;
-    const crossoverPercent = select("#crossover-percentage").elt.innerHTML;
-    // Elitism.
-    for (var i = 0; i < elitismPercent; i++) {
-        let bestBird = savedBirds[savedBirds.length - i - 1].copy();
-        birds.push(bestBird);
-    }
-    // Roulette wheel.
-    for (var i = 0; i < wheelPercent; i++) {
-        let newBird = pickOne();
-        newBird.mutate();
-        birds.push(newBird);
-    }
-    // Crossover.
+    const selectionProcess = document.querySelector('input[name=selection-process]:checked').value;
+    const selectionPercentage = select("#selection-percentage").elt.innerHTML;
+    const numberOfBirds = TOTAL * selectionPercentage / 100;
     const crossoverType = document.querySelector('input[name=crossover]:checked').value;
-    for (var i = 0; i < crossoverPercent; i++) {
-        // Choose the parents for the crossover.
-        const parent1 = pickOne();
-        const parent2 = pickOne();
-        // Add the child.
-        let newBird = createBird(parent1, parent2, crossoverType);
-        newBird.mutate();
-        birds.push(newBird);
+    // Elitism.
+    if (selectionProcess == "elitism") {
+        // Copy the best ones.
+        for (var i = 0; i < numberOfBirds; i++) {
+            let bestBird = savedBirds[savedBirds.length - i - 1].copy();
+            birds.push(bestBird);
+        }
+        // Crossover with the best ones.
+        while (birds.length < TOTAL) {
+            birds.push(elitismCrossover(numberOfBirds, crossoverType));
+        }
+    } else {
+        // Crossover with some random birds.
+        while (birds.length < TOTAL) {
+            birds.push(rouletteWheelCrossover());
+        }
+        // Roulette wheel to choose the birds for the crossover.
+        for (var i = 0; i < numberOfBirds; i++) {
+            let newBird = pickOne();
+            newBird.mutate();
+            birds.push(newBird);
+        }
+
     }
     // Clear the old generation.
     savedBirds = [];
@@ -60,6 +63,20 @@ function pickOne() {
         }
     } while (!pickedBird);
     return pickedBird.copy();
+}
+
+function elitismCrossover(numberOfBirds, crossoverType) {
+    const firstBirdIndex = Math.floor(random(numberOfBirds));
+    let secondBirdIndex;
+    // Find 2 different birds.
+    do {
+        secondBirdIndex = Math.floor(random(numberOfBirds));
+    } while (firstBirdIndex == secondBirdIndex);
+
+    const firstParent = savedBirds[savedBirds.length - 1 - firstBirdIndex];
+    const secondParent = savedBirds[savedBirds.length - 1 - secondBirdIndex];
+    // Crossover.
+    return createBird(firstParent, secondParent, crossoverType);
 }
 
 // Create a child through a crossover + mutation.
