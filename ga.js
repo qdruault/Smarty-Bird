@@ -18,12 +18,13 @@ function nextGeneration() {
         birds.push(newBird);
     }
     // Crossover.
+    const crossoverType = document.querySelector('input[name=crossover]:checked').value;
     for (var i = 0; i < crossoverPercent; i++) {
         // Choose the parents for the crossover.
         const parent1 = pickOne();
         const parent2 = pickOne();
         // Add the child.
-        let newBird = createBird(parent1, parent2);
+        let newBird = createBird(parent1, parent2, crossoverType);
         newBird.mutate();
         birds.push(newBird);
     }
@@ -62,9 +63,9 @@ function pickOne() {
 }
 
 // Create a child through a crossover + mutation.
-function createBird(parent1, parent2) {
+function createBird(parent1, parent2, crossoverType) {
   // Crossover the brain.
-  const childBrain = new NeuralNetwork(parent1.brain, parent2.brain);
+  const childBrain = new NeuralNetwork(parent1.brain, parent2.brain, crossoverType);
   // Mix the colors.
   const newRed = (parent1.red + parent2.red) / 2;
   const newGreen = (parent1.green + parent2.green) / 2;
