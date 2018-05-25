@@ -45,13 +45,13 @@ class NeuralNetwork {
       this.weights_ho = new Matrix(this.output_nodes, this.hidden_nodes);
       this.bias_h = new Matrix(this.hidden_nodes, 1);
       this.bias_o = new Matrix(this.output_nodes, 1);
-      
+
       switch (c) {
-        case 1:
+        case "1":
           // 1 point crossover.
           this.onePointCrossover(a, b);
           break;
-        case 2:
+        case "2":
           // 2 point crossover.
           this.twoPointCrossover(a, b);
           break;
@@ -147,11 +147,80 @@ class NeuralNetwork {
   }
 
   twoPointCrossover(parent1, parent2) {
+    // Crossover of the weights.
+    // 1st split between 1 and n-2;
+    const firstWeightsIhSplit = Math.floor(random(parent1.weights_ih.rows - 2)) + 1;
+    // 2nd split between the first one and n-1;
+    const secondWeightsIhSplit = Math.floor(random(firstWeightsIhSplit, parent1.weights_ih.rows - 1)) + 1;
+    // Crossover.
+    for (var i = 0; i < parent1.weights_ih.cols; i++) {
+      for (var j = 0; j < firstWeightsIhSplit; j++) {
+        this.weights_ih.data[j][i] = parent1.weights_ih.data[j][i];
+      }
+      for (var j = firstWeightsIhSplit; j < secondWeightsIhSplit; j++) {
+        this.weights_ih.data[j][i] = parent2.weights_ih.data[j][i];
+      }
+      for (var j = secondWeightsIhSplit; j < parent1.weights_ih.rows; j++) {
+        this.weights_ih.data[j][i] = parent1.weights_ih.data[j][i];
+      }
+    }
 
+    // Random split between 1 and n-2;
+    const firstWeightsHoSplit = Math.floor(random(parent1.weights_ho.rows - 2)) + 1;
+    // 2nd split between the first one and n-1;
+    const secondWeightsHoSplit = Math.floor(random(firstWeightsHoSplit, parent1.weights_ho.rows - 1)) + 1;
+    // Crossover.
+    for (var i = 0; i < parent1.weights_ho.cols; i++) {
+      for (var j = 0; j < firstWeightsHoSplit; j++) {
+        this.weights_ho.data[j][i] = parent1.weights_ho.data[j][i];
+      }
+      for (var j = firstWeightsHoSplit; j < secondWeightsHoSplit; j++) {
+        this.weights_ho.data[j][i] = parent2.weights_ho.data[j][i];
+      }
+      for (var j = secondWeightsHoSplit; j < parent1.weights_ho.rows; j++) {
+        this.weights_ho.data[j][i] = parent1.weights_ho.data[j][i];
+      }
+    }
+
+    // Crossover of the biases.
+    // Random split between 1 and n-2;
+    const firstBiasHSplit = Math.floor(random(parent1.bias_h.rows - 2)) + 1;
+    // 2nd split between the first one and n-1;
+    const secondBiasHSplit = Math.floor(random(firstBiasHSplit, parent1.bias_h.rows - 1)) + 1;
+    // Crossover.
+    for (var i = 0; i < parent1.bias_h.cols; i++) {
+      for (var j = 0; j < firstBiasHSplit; j++) {
+        this.bias_h.data[j][i] = parent1.bias_h.data[j][i];
+      }
+      for (var j = firstBiasHSplit; j < secondBiasHSplit; j++) {
+        this.bias_h.data[j][i] = parent2.bias_h.data[j][i];
+      }
+      for (var j = secondBiasHSplit; j < parent1.bias_h.rows; j++) {
+        this.bias_h.data[j][i] = parent1.bias_h.data[j][i];
+      }
+    }
+
+    // Random split between 1 and n-2;
+    const firstBiasOSplit = Math.floor(random(parent1.bias_o.rows - 2)) + 1;
+    // 2nd split between the first one and n-1;
+    const secondBiasOSplit = Math.floor(random(firstBiasOSplit, parent1.bias_o.rows - 1)) + 1;
+    // Crossover.
+    for (var i = 0; i < parent1.bias_o.cols; i++) {
+      for (var j = 0; j < firstBiasOSplit; j++) {
+        this.bias_o.data[j][i] = parent1.bias_o.data[j][i];
+      }
+      for (var j = firstBiasOSplit; j < secondBiasOSplit; j++) {
+        this.bias_o.data[j][i] = parent2.bias_o.data[j][i];
+      }
+      for (var j = secondBiasOSplit; j < parent1.bias_o.rows; j++) {
+        this.bias_o.data[j][i] = parent1.bias_o.data[j][i];
+      }
+    }
   }
 
   uniformCrossover(parent1, parent2) {
-
+    console.log("uniformCrossover");
+    noLoop();
   }
 
   predict(input_array) {
