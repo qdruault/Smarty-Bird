@@ -33,7 +33,7 @@ function setup() {
     difficultySlider.parent('difficulty-slider-holder');
     speedSlider = createSlider(1, 1000, 100);
     speedSlider.parent('speed-slider-holder');
-    selectionSlider = createSlider(1, 50, 2, 1);
+    selectionSlider = createSlider(1, 50, 1, 1);
     selectionSlider.parent('selection-slider-holder');
     // Initial population.
     for (var i = 0; i < TOTAL; i++) {
@@ -49,6 +49,8 @@ function draw() {
       // Reset highest score if difficulty has changed.
       maxScore = 0;
       select("#highest-score").elt.innerHTML = maxScore;
+      select("#highest-score").removeClass("new-highscore");
+      select("#current-score").removeClass("new-highscore");
     }
     pipesOccurrence = 75;
     // Update sliders values.
