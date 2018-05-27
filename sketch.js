@@ -29,14 +29,12 @@ function setup() {
     let canvas = createCanvas(windowWidth, 480);
     canvas.parent('canvas-holder');
     // Create the sliders.
-    difficultySlider = createSlider(1, 3, 1);
+    difficultySlider = createSlider(1, 5, 1);
     difficultySlider.parent('difficulty-slider-holder');
-    speedSlider = createSlider(1, 20, 10);
+    speedSlider = createSlider(1, 1000, 100);
     speedSlider.parent('speed-slider-holder');
-    elitismSlider = createSlider(1, 10, 2, 1);
-    elitismSlider.parent('elitism-slider-holder');
-    wheelSlider = createSlider(1, 100, 50, 1);
-    wheelSlider.parent('wheel-slider-holder');
+    selectionSlider = createSlider(1, 50, 1, 1);
+    selectionSlider.parent('selection-slider-holder');
     // Initial population.
     for (var i = 0; i < TOTAL; i++) {
         birds[i] = new Bird();
@@ -46,22 +44,19 @@ function setup() {
 // Draw the game at each frame.
 function draw() {
     // Difficulty update.
-    difficulty = difficultySlider.value();
+    if (difficultySlider.value() != difficulty) {
+      difficulty = difficultySlider.value();
+      // Reset highest score if difficulty has changed.
+      maxScore = 0;
+      select("#highest-score").elt.innerHTML = maxScore;
+      select("#highest-score").removeClass("new-highscore");
+      select("#current-score").removeClass("new-highscore");
+    }
     pipesOccurrence = 75;
     // Update sliders values.
     select("#game-speed").elt.innerHTML = speedSlider.value();
     select("#game-difficulty").elt.innerHTML = difficultySlider.value();
-    let elitismPercent = elitismSlider.value();
-    let wheelPercent = wheelSlider.value();
-    let crossoverPercent = 100 - elitismPercent - wheelPercent;
-    // Adjust to make total = 100%.
-    if (crossoverPercent < 0) {
-        wheelSlider.value(wheelPercent - 1);
-    }
-
-    select("#elitism-percentage").elt.innerHTML = elitismSlider.value();
-    select("#wheel-percentage").elt.innerHTML = wheelSlider.value();
-    select("#crossover-percentage").elt.innerHTML = crossoverPercent;
+    select("#selection-percentage").elt.innerHTML = selectionSlider.value();
 
     for (var c = 0; c < speedSlider.value(); c++) {
         // Add a new pipe.
@@ -82,33 +77,41 @@ function draw() {
                 }
             }
 
-            // On retire les tuyaux hors écran.
+            // Remove the pipes once they're gone.
             if (pipes[i].isOffscreen()) {
                 pipes.splice(i, 1);
-                // MAJ du score.
+                // Update the score.
                 currentScore++;
                 select("#current-score").elt.innerHTML = currentScore;
+                // New highscore ?
                 if (currentScore > maxScore) {
                     maxScore = currentScore;
                     select("#highest-score").elt.innerHTML = maxScore;
+                    // Change the color of the max score.
+                    if (select("#highest-score").elt.className != "new-highscore") {
+                      select("#highest-score").addClass("new-highscore");
+                      select("#current-score").addClass("new-highscore");
+                    }
+
                 }
             }
         }
 
-        // Pour chaque oiseau.
+        // Make the birds think if they have to jump or not.
         for (bird of birds) {
-            // Décide s'il doit sauter ou non.
             bird.think(pipes);
-            // Mise à jour de la position de l'oiseau.
+            // Update its position.
             bird.update();
         }
-        // Nouvelle génération.
+        // All birds died ?.
         if (birds.length === 0) {
-            // RAZ du score.
+            // Reset the score.
             currentScore = 0;
             select("#current-score").elt.innerHTML = currentScore;
+            select("#highest-score").removeClass("new-highscore");
+            select("#current-score").removeClass("new-highscore");
             nextGeneration();
-            // MAJ de l'interface.
+            // Update the user interface.
             numberOfGenerations++;
             select("#generations-number").elt.innerHTML = numberOfGenerations;
 
@@ -117,7 +120,7 @@ function draw() {
         }
     }
 
-    // Afficahge graphique
+    // Graphical display.
     clear();
     for (bird of birds) {
         bird.show()

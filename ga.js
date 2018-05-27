@@ -3,29 +3,27 @@ function nextGeneration() {
     // Normalise the score of each bird.
     calculateFitness();
     // Create the new generation basd on the user settings.
-    const elitismPercent = select("#elitism-percentage").elt.innerHTML;
-    const wheelPercent = select("#wheel-percentage").elt.innerHTML;
-    const crossoverPercent = select("#crossover-percentage").elt.innerHTML;
+    const selectionProcess = document.querySelector('input[name=selection-process]:checked').value;
+    const selectionPercentage = select("#selection-percentage").elt.innerHTML;
+    const numberOfBirds = TOTAL * selectionPercentage / 100;
+    const crossoverType = document.querySelector('input[name=crossover]:checked').value;
     // Elitism.
-    for (var i = 0; i < elitismPercent; i++) {
-        let bestBird = savedBirds[savedBirds.length - i - 1].copy();
-        birds.push(bestBird);
-    }
-    // Roulette wheel.
-    for (var i = 0; i < wheelPercent; i++) {
-        let newBird = pickOne();
-        newBird.mutate();
-        birds.push(newBird);
-    }
-    // Crossover.
-    for (var i = 0; i < crossoverPercent; i++) {
-        // Choose the parents for the crossover.
-        const parent1 = pickOne();
-        const parent2 = pickOne();
-        // Add the child.
-        let newBird = createBird(parent1, parent2);
-        newBird.mutate();
-        birds.push(newBird);
+    if (selectionProcess == "elitism") {
+        // Copy the best ones.
+        for (var i = 0; i < numberOfBirds; i++) {
+            let bestBird = savedBirds[savedBirds.length - i - 1].copy();
+            birds.push(bestBird);
+        }
+        // Crossover with the best ones.
+        while (birds.length < TOTAL) {
+            birds.push(elitismCrossover(numberOfBirds, crossoverType));
+        }
+    } else {
+        // Roulette wheel.
+        // Crossover with some random birds.
+        while (birds.length < TOTAL) {
+            birds.push(rouletteWheelCrossover(numberOfBirds, crossoverType));
+        }
     }
     // Clear the old generation.
     savedBirds = [];
@@ -42,29 +40,56 @@ function calculateFitness() {
     }
 }
 
-// Pick a bird. The higher a bird's fitness value
-// the more likely it is to be picked.
-// Returns the bird.
-function pickOne() {
-    let pickedBird;
+function rouletteWheelCrossover(crossoverType) {
+    let firstParentIndex, secondParentIndex;
+    let firstParent, secondParent;
     do {
         // Pick a random bird.
-        const randomIndex = Math.floor(random(0, savedBirds.length));
-        const bird = savedBirds[randomIndex];
+        firstParentIndex = Math.floor(random(0, savedBirds.length));
+        const bird = savedBirds[firstParentIndex];
         // Pick a random number between 0 and 1 (the sum of all the fitness values).
         const randomValue = random(0, 1);
         // Check the fitness value of the chosen bird .
         if (bird.fitness > randomValue) {
-            pickedBird = bird;
+            firstParent = bird;
         }
-    } while (!pickedBird);
-    return pickedBird.copy();
+    } while (!firstParent);
+    do {
+        // Pick a random bird.
+        secondParentIndex = Math.floor(random(0, savedBirds.length));
+        // Check the 2 birds are different.
+        if (secondParentIndex != firstParentIndex) {
+            const bird = savedBirds[secondParentIndex];
+            // Pick a random number between 0 and 1 (the sum of all the fitness values).
+            const randomValue = random(0, 1);
+            // Check the fitness value of the chosen bird .
+            if (bird.fitness > randomValue) {
+                secondParent = bird;
+            }
+        }
+    } while (!secondParent);
+
+    return createBird(firstParent, secondParent, crossoverType);
+}
+
+function elitismCrossover(numberOfBirds, crossoverType) {
+    const firstBirdIndex = Math.floor(random(numberOfBirds));
+    let secondBirdIndex;
+    // Find 2 different birds.
+    do {
+        secondBirdIndex = Math.floor(random(numberOfBirds));
+    } while (firstBirdIndex == secondBirdIndex);
+
+    const firstParent = savedBirds[savedBirds.length - 1 - firstBirdIndex];
+    const secondParent = savedBirds[savedBirds.length - 1 - secondBirdIndex];
+    // Crossover.
+    return createBird(firstParent, secondParent, crossoverType);
 }
 
 // Create a child through a crossover + mutation.
-function createBird(parent1, parent2) {
+function createBird(parent1, parent2, crossoverType) {
   // Crossover the brain.
-  const childBrain = new NeuralNetwork(parent1.brain, parent2.brain);
+  const childBrain = new NeuralNetwork(parent1.brain, parent2.brain, crossoverType);
   // Mix the colors.
   const newRed = (parent1.red + parent2.red) / 2;
   const newGreen = (parent1.green + parent2.green) / 2;

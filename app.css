@@ -13,7 +13,7 @@ header {
     background-color: #3498db;
 }
 
-#speed {
+#speed-difficulty {
     background-color: #e74c3c;
 }
 
@@ -38,4 +38,8 @@ header {
     background-size: contain;
     height: 480px;
     border-bottom: 2px solid #ffffff;
+}
+
+.new-highscore {
+  color: #ffa330;
 }
