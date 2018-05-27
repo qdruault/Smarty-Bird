@@ -29,7 +29,7 @@ function setup() {
     let canvas = createCanvas(windowWidth, 480);
     canvas.parent('canvas-holder');
     // Create the sliders.
-    difficultySlider = createSlider(1, 3, 1);
+    difficultySlider = createSlider(1, 5, 1);
     difficultySlider.parent('difficulty-slider-holder');
     speedSlider = createSlider(1, 1000, 100);
     speedSlider.parent('speed-slider-holder');
