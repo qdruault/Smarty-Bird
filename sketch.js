@@ -37,7 +37,8 @@ function setup() {
     selectionSlider.parent('selection-slider-holder');
     // Initial population.
     for (var i = 0; i < TOTAL; i++) {
-        birds[i] = new Bird();
+        //birds[i] = new Bird();
+        birds[i] = Bird.createFitBird();
     }
 }
 

@@ -1,5 +1,4 @@
 // Other techniques for learning
-
 class ActivationFunction {
   constructor(func, dfunc) {
     this.func = func;
